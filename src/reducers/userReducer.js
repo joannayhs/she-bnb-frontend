@@ -1,5 +1,6 @@
 import { SET_CURRENT_USER, CLEAR_CURRENT_USER } from '../actionTypes/index'
 
+
 export function userReducer(state=null, action) {
     switch(action.type){
         case SET_CURRENT_USER:

@@ -1,7 +1,8 @@
 
 import React, { useState } from "react";
 
-    export default function LoginForm(props) {
+
+export default function LoginForm(props) {
 
     const [inputs, setInputs] = useState(props.inputs.map((input) => ""));
 
