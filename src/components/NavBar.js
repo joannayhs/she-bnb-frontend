@@ -7,7 +7,10 @@ function NavBar({user}){
     function logInOrOut(){
         if(user){
             return(
-                <LogOut />
+                <>
+                    <NavLink to= '/profile' exact>Profile</NavLink>
+                    <LogOut />
+                </>
             )
         }else{
             return(
