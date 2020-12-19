@@ -19,7 +19,7 @@ function App(props) {
        
         <SignUpForm 
             inputs={['Email', 'First Name', 'Last Name', 'password']}
-            submitCallback={props.signup}
+            submitCallback={props.signUp}
             submitValue={'Sign Up'}
         />
 

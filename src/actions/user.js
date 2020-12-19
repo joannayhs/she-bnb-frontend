@@ -40,7 +40,7 @@ export const login = credentials => {
         .then(r => r.json())
         .then(res => {
             if(res.error){
-                alert("An error occured")
+                alert("Incorrect Credentials")
             }else{
                 const user = res.data
                 dispatch(setCurrentUser(user))
@@ -62,7 +62,7 @@ export const getCurrentUser = () => {
             .then(r => r.json())
             .then(res => {
                 if (res.error) {
-                    alert("An error occured")
+                    console.log("No current user")
                 } else {
                     const user = res.data
                     dispatch(setCurrentUser(user))
@@ -73,12 +73,15 @@ export const getCurrentUser = () => {
 }
 
 export const signUp = credentials => {
-    const userCredentials = {
-        email: credentials[0],
-        first_name: credentials[1],
-        last_name: credentials[2],
-        password: credentials[3]
+    const userInfo = {
+        user: {
+            email: credentials[0],
+            first_name: credentials[1],
+            last_name: credentials[2],
+            password: credentials[3]
+        }
     }
+    
     return dispatch => {
         return fetch('http://localhost:3001/api/v1/signup', {
             credentials: "include",
@@ -86,15 +89,15 @@ export const signUp = credentials => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userCredentials)
+            body: JSON.stringify(userInfo)
         })
             .then(r => r.json())
             .then(res => {
                 if (res.error) {
-                    alert("An error occured")
+                    console.log(res.error)
                 } else {
-                    const user = res.data
-                    dispatch(setCurrentUser(user))
+                    const userObj = res.data
+                    dispatch(setCurrentUser(userObj))
                 }
             })
             .catch()
