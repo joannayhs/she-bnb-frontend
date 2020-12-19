@@ -5,6 +5,7 @@ import SignUpForm from './components/SignUpForm'
 import LogOutButton from './components/LogOut'
 import { connect } from 'react-redux'
 import { login, getCurrentUser, signUp } from './actions/user'
+import { Route } from 'react-router-dom'
 
 
 function App(props) {
@@ -16,17 +17,18 @@ function App(props) {
 
     return (
       <div className="App">
+          <SignUpForm 
+              inputs={['Email', 'First Name', 'Last Name', 'password']}
+              submitCallback={props.signUp}
+              submitValue={'Sign Up'}
+          />
+        
        
-        <SignUpForm 
-            inputs={['Email', 'First Name', 'Last Name', 'password']}
-            submitCallback={props.signUp}
-            submitValue={'Sign Up'}
-        />
-
-        <LoginForm
-          inputs={['email', 'password']}
-          submitCallback={props.login}
-          submitValue={'Log In'} />
+          <LoginForm
+            inputs={['email', 'password']}
+            submitCallback={props.login}
+            submitValue={'Log In'} />
+      
 
         <LogOutButton />
       </div>
