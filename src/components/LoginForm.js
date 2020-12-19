@@ -16,6 +16,7 @@ export default function LoginForm(props) {
         e.preventDefault();
         setInputs(props.inputs.map((i) => ""));
         props.submitCallback(inputs);
+        
     };
 
     const renderInputs = () => {

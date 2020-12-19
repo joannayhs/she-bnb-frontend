@@ -7,7 +7,7 @@ import SignUpContainer from './components/SignUpContainer'
 import ExploreContainer from './components/ExploreContainer'
 import { connect } from 'react-redux'
 import { getCurrentUser } from './actions/user'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch , Redirect } from 'react-router-dom'
 
 
 function App(props) {
@@ -22,30 +22,19 @@ function App(props) {
 
         <Switch>
           <Route exact path='/login'>
-            <LoginContainer />
+           {props.user ? <Redirect to='/' /> : <LoginContainer />}
           </Route>
           <Route exact path='/signup'>
-            <SignUpContainer />
+            {props.user ? <Redirect to='/'/> : <SignUpContainer />}
+          </Route>
+          <Route path='/'>
+            <NavBar />
+            <SearchContainer />
+            <ExploreContainer />
           </Route>
         </Switch>
         
-          <NavBar />
-          <SearchContainer />
-          <ExploreContainer />
-          {/* <SignUpForm 
-              inputs={['Email', 'First Name', 'Last Name', 'password']}
-              submitCallback={props.signUp}
-              submitValue={'Sign Up'}
-          />
-        
-       
-          <LoginForm
-            inputs={['email', 'password']}
-            submitCallback={props.login}
-            submitValue={'Log In'} />
-      
-
-          <LogOutButton />  */}
+     
       </div>
     )
   

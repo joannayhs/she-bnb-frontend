@@ -1,3 +1,4 @@
+import { Redirect } from 'react-router-dom'
 import { SET_CURRENT_USER, CLEAR_CURRENT_USER } from '../actionTypes/index'
 
 export const setCurrentUser = (user) => {
