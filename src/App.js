@@ -1,11 +1,13 @@
 import './App.css';
 import { useEffect } from 'react'
-import LoginForm from './components/LoginForm'
-import SignUpForm from './components/SignUpForm'
-import LogOutButton from './components/LogOut'
+import NavBar from './components/NavBar'
+import SearchContainer from './components/SearchContainer'
+import LoginContainer from './components/LoginContainer'
+import SignUpContainer from './components/SignUpContainer'
+import ExploreContainer from './components/ExploreContainer'
 import { connect } from 'react-redux'
-import { login, getCurrentUser, signUp } from './actions/user'
-import { Route } from 'react-router-dom'
+import { getCurrentUser } from './actions/user'
+import { Route, Switch } from 'react-router-dom'
 
 
 function App(props) {
@@ -17,7 +19,20 @@ function App(props) {
 
     return (
       <div className="App">
-          <SignUpForm 
+
+        <Switch>
+          <Route exact path='/login'>
+            <LoginContainer />
+          </Route>
+          <Route exact path='/signup'>
+            <SignUpContainer />
+          </Route>
+        </Switch>
+        
+          <NavBar />
+          <SearchContainer />
+          <ExploreContainer />
+          {/* <SignUpForm 
               inputs={['Email', 'First Name', 'Last Name', 'password']}
               submitCallback={props.signUp}
               submitValue={'Sign Up'}
@@ -30,7 +45,7 @@ function App(props) {
             submitValue={'Log In'} />
       
 
-        <LogOutButton />
+          <LogOutButton />  */}
       </div>
     )
   
@@ -42,4 +57,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { login , getCurrentUser, signUp})(App);
+export default connect(mapStateToProps, {getCurrentUser})(App);
