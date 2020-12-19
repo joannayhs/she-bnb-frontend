@@ -29,7 +29,8 @@ function App(props) {
             {props.user ? <Redirect to='/'/> : <SignUpContainer />}
           </Route>
           <Route exact path='/profile'>
-            <Profile />
+            <NavBar />
+            {props.user ? <Profile /> : <Redirect to='/'/>}
           </Route>
           <Route path='/'>
             <NavBar />
