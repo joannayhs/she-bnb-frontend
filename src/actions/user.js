@@ -71,3 +71,32 @@ export const getCurrentUser = () => {
             .catch()
     }
 }
+
+export const signUp = credentials => {
+    const userCredentials = {
+        email: credentials[0],
+        first_name: credentials[1],
+        last_name: credentials[2],
+        password: credentials[3]
+    }
+    return dispatch => {
+        return fetch('http://localhost:3001/api/v1/signup', {
+            credentials: "include",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userCredentials)
+        })
+            .then(r => r.json())
+            .then(res => {
+                if (res.error) {
+                    alert("An error occured")
+                } else {
+                    const user = res.data
+                    dispatch(setCurrentUser(user))
+                }
+            })
+            .catch()
+    }
+}
