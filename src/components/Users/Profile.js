@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
+import ListingsContainer from '../Listings/ListingsContainer'
 
 function Profile({user}){
     return (
         <>
             <h1>Welcome, {user.attributes.first_name}</h1>
             <h2>Reservations</h2>
-            <h2>Listings</h2>
+            <ListingsContainer />
         </>
     )
 }
