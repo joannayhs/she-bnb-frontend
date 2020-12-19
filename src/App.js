@@ -1,12 +1,15 @@
 import './App.css';
-import React from 'react'
+import { useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import { connect } from 'react-redux'
-import { login } from './actions/user'
+import { login, getCurrentUser } from './actions/user'
 
 
 function App(props) {
 
+    useEffect( () => {
+      props.getCurrentUser()
+    })
 
     return (
       <div className="App">
@@ -20,4 +23,4 @@ function App(props) {
 }
 
 
-export default connect(null, { login })(App);
+export default connect(null, { login , getCurrentUser})(App);

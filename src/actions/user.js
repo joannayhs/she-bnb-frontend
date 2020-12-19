@@ -49,3 +49,25 @@ export const login = credentials => {
         .catch()
     }
 }
+
+export const getCurrentUser = () => {
+    return dispatch => {
+        return fetch('http://localhost:3001/api/v1/get_current_user', {
+            credentials: "include",
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(r => r.json())
+            .then(res => {
+                if (res.error) {
+                    alert("An error occured")
+                } else {
+                    const user = res.data
+                    dispatch(setCurrentUser(user))
+                }
+            })
+            .catch()
+    }
+}
