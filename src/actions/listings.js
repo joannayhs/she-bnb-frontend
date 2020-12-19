@@ -9,7 +9,7 @@ export const setListings = (listings) => {
 
 export const getListings = (user) => {
     return dispatch => {
-        return fetch(`http://localhost30001/api/v1/users/${user.id}/listings`, {
+        return fetch(`http://localhost:3001/api/v1/users/${user.id}/listings`, {
             credentials: "include",
             method: "GET",
             headers: {
@@ -19,6 +19,7 @@ export const getListings = (user) => {
         .then(r => r.json())
         .then(listingsInfo => {
             const listings = listingsInfo.data
+            console.log(listingsInfo.data)
             dispatch(setListings(listings))
         })
         .catch("Unable to get listings")
