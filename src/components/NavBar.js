@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import LogOut from './LogOut'
+import LogOut from './Users/LogOut'
 
 function NavBar({user}){
 

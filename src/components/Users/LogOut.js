@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { logout } from '../actions/user'
+import { logout } from '../../actions/user'
 
 function LogOut(props){
 

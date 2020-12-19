@@ -1,6 +1,6 @@
 import SignUpForm from './SignUpForm'
 import { connect } from 'react-redux'
-import { signUp } from '../actions/user'
+import { signUp } from '../../actions/user'
 
 
 function SignUpContainer(props){
