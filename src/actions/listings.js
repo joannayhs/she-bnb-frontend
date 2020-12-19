@@ -7,9 +7,9 @@ export const setListings = (listings) => {
     }
 }
 
-export const getListings = (user) => {
+export const getListings = () => {
     return dispatch => {
-        return fetch(`http://localhost:3001/api/v1/users/${user.id}/listings`, {
+        return fetch(`http://localhost:3001/api/v1/listings`, {
             credentials: "include",
             method: "GET",
             headers: {
@@ -19,7 +19,6 @@ export const getListings = (user) => {
         .then(r => r.json())
         .then(listingsInfo => {
             const listings = listingsInfo.data
-            console.log(listingsInfo.data)
             dispatch(setListings(listings))
         })
         .catch("Unable to get listings")

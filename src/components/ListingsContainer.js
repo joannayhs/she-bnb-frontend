@@ -1,16 +1,23 @@
 import { connect } from 'react-redux'
 import { getListings } from '../actions/listings'
 import { useEffect } from 'react'
+import ListingCard from './ListingCard'
 
 function ListingsContainer(props){
 
     useEffect(() => {
-        props.getListings(props.user)
+        props.getListings()
     }, [])
+
+    function renderListings(listings){
+         return listings.map( l => {
+             return <ListingCard listing={l}/>
+         })
+    }
 
     return (
         <div className="ListingsContainer">
-            <h1>Listings Container</h1>
+            {renderListings(props.listings)}        
         </div>
     )
 
@@ -19,7 +26,6 @@ function ListingsContainer(props){
 const mapStateToProps = state => {
     return {
         user: state.user,
-        listings: state.listings
     }
 }
 
