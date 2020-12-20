@@ -18,8 +18,11 @@ function Profile({user, listings}){
     return (
         <>
             <h1>Welcome, {user.attributes.first_name}</h1>
-            <ReservationsContainer user={user}/>
+            <h2>Your Listings</h2>
             <ListingsContainer listings={getUserListings()}/>
+            <h2>Your Reservations</h2>
+            <ReservationsContainer user={user} />
+
         </>
     )
 }

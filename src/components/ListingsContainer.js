@@ -10,7 +10,7 @@ function ListingsContainer(props){
     }, [])
 
     function renderListings(listings){
-        return listings.map(l => <ListingCard listing={l}/>)
+        return listings.map(l => <ListingCard listing={l} key={l.id}/>)
     }
 
     return (
