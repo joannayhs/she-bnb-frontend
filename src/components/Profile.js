@@ -5,13 +5,13 @@ function Profile({user, listings}){
 
     function getUserListings(){
         const userListings = []
-        listings.map( l => {
-            console.log(l.attributes.user_id === user.id)
-            if(l.attributes.user_id === user.id){
-                userListings.push(l)
-            }
-        })
+        for(const l in listings){
+           if(listings[l].attributes.user_id === Number(user.id)){
+               userListings.push(listings[l])
+           }
+        }
         return userListings
+        
     }
 
     return (
