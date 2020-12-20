@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import ListingsContainer from './ListingsContainer'
+import ReservationsContainer from './ReservationsContainer'
 
 function Profile({user, listings}){
 
@@ -17,7 +18,7 @@ function Profile({user, listings}){
     return (
         <>
             <h1>Welcome, {user.attributes.first_name}</h1>
-            <h2>Reservations</h2>
+            <ReservationsContainer user={user}/>
             <ListingsContainer listings={getUserListings()}/>
         </>
     )
