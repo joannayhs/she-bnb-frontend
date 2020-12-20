@@ -8,13 +8,16 @@ import ExploreContainer from './components/ExploreContainer'
 import Profile from './components/Profile'
 import { connect } from 'react-redux'
 import { getCurrentUser } from './actions/user'
+import { getListings } from './actions/listings'
 import { Route, Switch , Redirect } from 'react-router-dom'
+import ListingsContainer from './components/ListingsContainer';
 
 
 function App(props) {
 
     useEffect( () => {
       props.getCurrentUser()
+      props.getListings()
     }, [])
 
 
@@ -32,8 +35,11 @@ function App(props) {
             <NavBar />
             {props.user ? <Profile /> : <Redirect to='/'/>}
           </Route>
-          <Route path='/'>
+          <Route path='/listings'>
             <NavBar />
+            <ListingsContainer />
+          </Route>
+          <Route path='/'>
             <SearchContainer />
             <ExploreContainer />
           </Route>
@@ -47,8 +53,9 @@ function App(props) {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user,
+    listings: state.listings
   }
 }
 
-export default connect(mapStateToProps, {getCurrentUser})(App);
+export default connect(mapStateToProps, {getCurrentUser, getListings})(App);

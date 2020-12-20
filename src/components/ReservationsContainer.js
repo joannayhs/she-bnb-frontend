@@ -1,6 +1,5 @@
 import ReservationCard from './ReservationCard'
 import { connect } from 'react-redux'
-import { useEffect } from 'react'
 
 function ReservationsContainer(props){
     const userReservations = props.user.attributes.reservations
