@@ -1,5 +1,11 @@
+import SearchForm from './SearchForm'
+
 export default function SearchContainer(){
+
     return (
-        <h1>SearchContainer</h1>
+        <div className="SearchContainer">
+            <SearchForm />
+        </div>
     )
+
 }
