@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import ListingsContainer from './ListingsContainer'
 import ReservationsContainer from './ReservationsContainer'
+import ListingCard from './ListingCard'
 
 function Profile({user, listings}){
 
@@ -12,14 +12,17 @@ function Profile({user, listings}){
            }
         }
         return userListings
-        
+    }
+
+    function renderUserListings(listings){
+        return listings.map(l => <ListingCard listing={l} key={l.id}/>)
     }
 
     return (
         <>
             <h1>Welcome, {user.attributes.first_name}</h1>
             <h2>Your Listings</h2>
-            <ListingsContainer listings={getUserListings()}/>
+            {renderUserListings(getUserListings())}
             <h2>Your Reservations</h2>
             <ReservationsContainer user={user} />
 

@@ -40,6 +40,7 @@ function App(props) {
             <ListingsContainer />
           </Route>
           <Route path='/'>
+            <NavBar />
             <SearchContainer />
             <ExploreContainer />
           </Route>

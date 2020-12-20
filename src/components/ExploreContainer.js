@@ -1,20 +1,15 @@
 import { connect } from 'react-redux'
 import ListingCard from './ListingCard'
 import { NavLink } from 'react-router-dom'
+import ListingsContainer from './ListingsContainer'
  
 function ExploreContainer({listings}){
-    
-    function renderListingCards(listingsObj){
-        for(const l in listingsObj){
-            return <ListingCard listing={listingsObj[l]} />
-        }
-    }
 
     return(
         <div className="ExploreContainer">
             <h1>Explore Listings</h1>
             <NavLink to='/listings' exact>See All Listings</NavLink>
-            {renderListingCards(listings)}
+            <ListingsContainer />
             
         </div>
     )
