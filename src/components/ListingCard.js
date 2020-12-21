@@ -1,13 +1,27 @@
 
+import { Carousel } from 'react-bootstrap'
+
 export default function ListingCard({listing}){
 
     function renderImgs(){
-        if(listing.attributes.images.length > 0){
-            listing.attributes.images.forEach(i => {
-                return <img src={i.url}/> 
-            })
+        const images = listing.attributes.images
+        for(const i in images){
+            return <img src={images[i].url}/>
+                    // <Carousel.Item>
+                    //     <img
+                    //         className="d-block w-100"
+                    //         src={images[i].url}
+                    //         alt={images[i].description}
+                    //     />
+                    //     <Carousel.Caption>
+                    //         <p>{images[i].description}</p>
+                    //     </Carousel.Caption>
+                    // </Carousel.Item>
+            
         }
     }
+
+
     
     return (
         <div className="ListingCard">
