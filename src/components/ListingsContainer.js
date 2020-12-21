@@ -7,7 +7,7 @@ function ListingsContainer(props){
 
     useEffect(() => {
         props.getListings()
-    }, [props.listings])
+    }, [])
 
     function renderListings(listings){
         return listings.map(l => <ListingCard listing={l} key={l.id}/>)

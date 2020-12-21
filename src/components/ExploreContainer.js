@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import ListingCard from './ListingCard'
 import { NavLink } from 'react-router-dom'
 import ListingsContainer from './ListingsContainer'
  
