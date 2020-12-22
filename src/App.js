@@ -39,6 +39,9 @@ function App(props) {
             <NavBar />
             <ListingsContainer />
           </Route>
+          <Route path='/listings/new'>
+            <AddListingForm />
+          </Route>
           <Route path='/'>
             <NavBar />
             <SearchContainer />

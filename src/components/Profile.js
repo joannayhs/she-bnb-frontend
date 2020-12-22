@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import ReservationsContainer from './ReservationsContainer'
 import ListingCard from './ListingCard'
+import { NavLink} from 'react-router-dom'
 
 function Profile({user, listings}){
 
@@ -23,6 +24,7 @@ function Profile({user, listings}){
             <h1>Welcome, {user.attributes.first_name}</h1>
             <h2>Your Listings</h2>
             {renderUserListings(getUserListings())}
+            <NavLink to='/listings/new'>Create New Listing</NavLink>
             <h2>Your Reservations</h2>
             <ReservationsContainer user={user} />
 
