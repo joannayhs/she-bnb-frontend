@@ -11,7 +11,7 @@ import { getCurrentUser } from './actions/user'
 import { getListings } from './actions/listings'
 import { Route, Switch , Redirect } from 'react-router-dom'
 import ListingsContainer from './components/ListingsContainer';
-
+import AddListingForm from './components/AddListingForm'
 
 function App(props) {
 
@@ -35,12 +35,16 @@ function App(props) {
             <NavBar />
             {props.user ? <Profile /> : <Redirect to='/'/>}
           </Route>
-          <Route path='/listings'>
+          <Route exact path='/listings'>
             <NavBar />
             <ListingsContainer />
           </Route>
-          <Route path='/listings/new'>
-            <AddListingForm />
+          <Route exact path='/listings/new'>
+            <NavBar/>
+            {props.user ? 
+            <AddListingForm /> :
+            <ListingsContainer/>
+            }
           </Route>
           <Route path='/'>
             <NavBar />
