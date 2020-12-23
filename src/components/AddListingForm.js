@@ -1,9 +1,18 @@
-export default function AddListingForm(){
+import { connect } from 'react-redux'
+
+function AddListingForm({ amenities }){
 
     function renderAmenityCheckboxes(){
-
+      return Object.keys(amenities).map(a => {
+          return( 
+              <>
+                <input type="checkbox" value={amenities[a].attributes.name}/>
+                <label for={amenities[a].attributes.name}>{amenities[a].attributes.name}</label>
+              </>
+          )
+        })
     }
-    
+
     return(
         <div>
             <form>
@@ -23,8 +32,16 @@ export default function AddListingForm(){
                 Price Per Night:
                 <input type="number" min="1" step="0.01"/>
                 Check all included amenities: 
-
+                {renderAmenityCheckboxes()}
             </form>
         </div>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        amenities: state.amenities
+    }
+}
+
+export default connect(mapStateToProps)(AddListingForm)
