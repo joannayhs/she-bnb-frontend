@@ -2,21 +2,22 @@ import { GET_AMENITIES } from '../actionTypes/index'
 
 export const getAmenities = () => {
     return dispatch => {
-        const res = fetch('http://localhost:3001/api/v1/amenities', {
+        return fetch('http://localhost:3001/api/v1/amenities', {
             credentials: "include",
             method: "GET",
             headers: {
-                "Content Type": "application/json"
+                "Conten-Type": "application/json"
             }
         })
         .then(res => res.json())
         .then(a => {
             const amenities = a.data
-            dispatch({
+            return dispatch({
                 type: GET_AMENITIES,
                 amenities
             })
         })
+        .catch(console.log("An error has occured"))
 
     }
 }
