@@ -1,5 +1,9 @@
 export default function AddListingForm(){
 
+    function renderAmenityCheckboxes(){
+
+    }
+    
     return(
         <div>
             <form>
@@ -18,6 +22,8 @@ export default function AddListingForm(){
                 <input type="number" id="num_of_beds"/>
                 Price Per Night:
                 <input type="number" min="1" step="0.01"/>
+                Check all included amenities: 
+
             </form>
         </div>
     )

@@ -9,6 +9,7 @@ import Profile from './components/Profile'
 import { connect } from 'react-redux'
 import { getCurrentUser } from './actions/user'
 import { getListings } from './actions/listings'
+import { getAmenities } from './actions/amenities'
 import { Route, Switch , Redirect } from 'react-router-dom'
 import ListingsContainer from './components/ListingsContainer';
 import AddListingForm from './components/AddListingForm'
@@ -18,6 +19,7 @@ function App(props) {
     useEffect( () => {
       props.getCurrentUser()
       props.getListings()
+      props.getAmenities()
     }, [])
 
 
@@ -66,4 +68,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {getCurrentUser, getListings})(App);
+export default connect(mapStateToProps, {getCurrentUser, getListings, getAmenities})(App);
