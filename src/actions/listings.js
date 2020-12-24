@@ -24,3 +24,4 @@ export const getListings = () => {
         .catch("Unable to get listings")
     }
 }
+
