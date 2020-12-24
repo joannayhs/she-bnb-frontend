@@ -26,5 +26,5 @@ export const getListings = () => {
 }
 
 export function addListing(formData){
-
+    
 }

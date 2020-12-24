@@ -21,11 +21,9 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
         const listingData = formData 
         if(e.target.type === 'checkbox'){
             listingData["Amenities"][e.target.name] = e.target.checked
-        }if(e.target.name === "img_url" || e.target.name === "img_description"){
-            listingData["Images"][e.target.name] = e.target.value
-        }if(e.target.name === 'new_amenity'){
-            listingData["Amenities"][e.target.name] = { 'name': e.target.value }
-        }if(e.target.name === 'property'){
+        }else if(e.target.name === "img_url" || e.target.name === "img_description"){
+            listingData["Images"][e.target.id] = e.target.value
+        }else if(e.target.name === 'property'){
             listingData['Property'][e.target.id] = e.target.value
         }else{
             listingData[e.target.name] = e.target.value
@@ -76,16 +74,16 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
                 Check all included amenities: <br/>
                 {renderAmenityCheckboxes()}
                 Add up to 5 images: <br/>
-                <input type="text" placeholder="Image URL" name="img_url" onChange={handleOnChange}/><br/>
-                Description: <input type="text" name="img_description" onChange={handleOnChange}/><br/>
-                <input type="text" placeholder="Image URL" name="img_url" onChange={handleOnChange} /><br />
-                Description: <input type="text" name="img_description" onChange={handleOnChange} /><br />
-                <input type="text" placeholder="Image URL" name="img_url" onChange={handleOnChange} /><br />
-                Description: <input type="text" name="img_description" onChange={handleOnChange} /><br />
-                <input type="text" placeholder="Image URL" name="img_url" onChange={handleOnChange} /><br />
-                Description: <input type="text" name="img_description" onChange={handleOnChange} /><br />
-                <input type="text" placeholder="Image URL" name="img_url" onChange={handleOnChange} /><br />
-                Description: <input type="text" name="img_description" onChange={handleOnChange} /><br />
+                <input type="text" placeholder="Image URL" id='url1'name="img_url" onChange={handleOnChange}/><br/>
+                Description: <input type="text" name="img_description" id='desc1' onChange={handleOnChange}/><br/>
+                <input type="text" placeholder="Image URL" name="img_url" id='url2'onChange={handleOnChange} /><br />
+                Description: <input type="text" name="img_description" id='desc2' onChange={handleOnChange} /><br />
+                <input type="text" placeholder="Image URL" name="img_url" id='url3' onChange={handleOnChange} /><br />
+                Description: <input type="text" name="img_description" id='desc3' onChange={handleOnChange} /><br />
+                <input type="text" placeholder="Image URL" name="img_url" id='url4' onChange={handleOnChange} /><br />
+                Description: <input type="text" name="img_description" id='desc4' onChange={handleOnChange} /><br />
+                <input type="text" placeholder="Image URL" name="img_url" id='url5' onChange={handleOnChange} /><br />
+                Description: <input type="text" name="img_description" id='desc5' onChange={handleOnChange} /><br />
                 <br/>
                 <button type="submit" onClick={handleSubmit}>Add Listing</button>
             </form>
