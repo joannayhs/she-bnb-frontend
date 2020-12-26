@@ -26,15 +26,7 @@ export const getListings = () => {
 }
 
 export function addListing(formData){
-    const listingData = {
-       title: formData.title,
-       description: formData.description, 
-       type_of: formData.type_of, 
-       max_guests: formData.max_guests,
-       num_of_beds: formData.num_of_beds,
-       price: formData.price,
-       user_id: formData.user_id 
-    }
+
     return dispatch => {
         return fetch('http://localhost:3001/api/v1/listings', {
             credentials: "include",
@@ -42,10 +34,11 @@ export function addListing(formData){
             headers: {
                 "Content-Type":"application/json"
             },
-            body: JSON.stringify(listingData)
+            body: JSON.stringify(formData)
         })
         .then(res => res.json())
         .then(listing => {
+            addProperty(formData, Number(listing.data.id))
             return dispatch({
                 type: ADD_LISTING,
                 listing: listing.data 
@@ -53,4 +46,30 @@ export function addListing(formData){
         })
         .catch("Unable to add listing")
     }
+
 }
+
+function addProperty(formData, listing_id){
+    const propertyData = {
+        street: formData.property.street,
+        city: formData.property.city,
+        state: formData.property.state,
+        zip: formData.property.zip,
+        listing_id: listing_id
+    }
+
+    return fetch('http://localhost:3001/api/v1/properties', {
+        credentials: "include",
+        method: "POST",
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(propertyData)
+    })
+    .then(res => res.json())
+    .then(property => {
+        return property.data
+    })
+    .catch("Unable to add property")
+}
+
