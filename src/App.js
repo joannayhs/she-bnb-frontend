@@ -12,7 +12,7 @@ import { getListings } from './actions/listings'
 import { getAmenities } from './actions/amenities'
 import { Route, Switch , Redirect } from 'react-router-dom'
 import ListingsContainer from './components/ListingsContainer';
-import ListingFormContainer from './components/ListingFormContainer'
+import AddListingForm from './components/AddListingForm'
 
 function App(props) {
 
@@ -44,7 +44,7 @@ function App(props) {
           <Route exact path='/listings/new'>
             <NavBar/>
             {props.user ? 
-            <ListingFormContainer /> :
+            <AddListingForm /> :
             <ListingsContainer/>
             }
           </Route>

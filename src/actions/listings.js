@@ -38,6 +38,7 @@ export function addListing(formData){
         })
         .then(res => res.json())
         .then(listing => {
+            addProperty(formData, listing.data.id)
             return dispatch({
                 type: ADD_LISTING,
                 listing: listing.data 
@@ -56,19 +57,19 @@ export function addProperty(formData, listing_id){
         zip: formData.property.zip,
         listing_id: listing_id
     }
-
     return fetch('http://localhost:3001/api/v1/properties', {
         credentials: "include",
         method: "POST",
         headers: {
-            "Content-Type":"application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(propertyData)
     })
-    .then(res => res.json())
-    .then(property => {
-        return property.data
-    })
-    .catch("Unable to add property")
+        .then(res => res.json())
+        .then(property => {
+            return property.data
+        })
+
 }
+
 
