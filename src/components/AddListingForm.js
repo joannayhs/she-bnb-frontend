@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { connect } from 'react-redux'
+import { addListing } from '../actions/listings'
 
 function AddListingForm({ user , amenities, addListing }){
-const [formData, setFormData] = useState({'user_id': user.id})
+const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':[], 'images':[]})
 const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
     function renderAmenityCheckboxes() {
         return Object.keys(amenities).map(a => {
             return (
                 <div key={amenities[a].id}>
-                    <input type="checkbox" key={amenities[a].id} name={amenities[a].attributes.name} onChange={handleOnChange} />
+                    <input type="checkbox" key={amenities[a].id} name={amenities[a].attributes.name} className="Amenities" onChange={handleOnChange} />
                     <label key={amenities[a].attributes.name}>{amenities[a].attributes.name}</label><br />
                 </div>
             )
@@ -18,9 +19,16 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
 
     function handleOnChange(e){
         const listingData = formData 
-        listingData[e.target.name] = e.target.value
+        if(e.target.className === "Property"){
+            listingData['property'][e.target.name] = e.target.value
+        }else if(e.target.className === "Amenities"){
+            listingData['amenities'][e.target.name] = e.target.checked
+        }else if(e.target.className === "Images"){
+            listingData['images'][e.target.name] = e.target.value
+        }else{
+            listingData[e.target.name] = e.target.value
+        }
         setFormData(listingData)
-        console.log(formData)
     }
 
     function handleSubmit(e){
@@ -56,14 +64,14 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
 
                 <div className="Property">
                     Address: <br />
-                    Street: <input type="text" name="street" placeholder="Street" onChange={handleOnChange} /><br />
-                    City: <input type="text" name="city" placeholder="City" onChange={handleOnChange} /><br />
+                    Street: <input type="text" name="street" placeholder="Street" className="Property" onChange={handleOnChange} /><br />
+                    City: <input type="text" name="city" placeholder="City" className="Property" onChange={handleOnChange} /><br />
                     State:
-                    <select name="state" onChange={handleOnChange}>
+                    <select name="state" className="Property" onChange={handleOnChange}>
                         <option key='blank'> </option>
                         {stateAbrevs.map(s => <option key={s}>{s}</option>)}
                     </select><br />
-                    Zip: <input type="text" name="zip" onChange={handleOnChange} /><br />
+                    Zip: <input type="text" name="zip" className="Property" onChange={handleOnChange} /><br />
                     <br/>
                 </div>
 
@@ -74,17 +82,9 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
 
 
                 <div className="Images"> 
-                    Add up to 5 images: <br />
-                    <input type="text" placeholder="Image URL" name="img_url" id='url1' onChange={handleOnChange} /><br />
-                    Description: <input type="text" name="img_description" id='desc1' onChange={handleOnChange} /><br />
-                    <input type="text" placeholder="Image URL" name="img_url" id='url2' onChange={handleOnChange} /><br />
-                    Description: <input type="text" name="img_description" id='desc2' onChange={handleOnChange} /><br />
-                    <input type="text" placeholder="Image URL" name="img_url" id='url3' onChange={handleOnChange} /><br />
-                    Description: <input type="text" name="img_description" id='desc3' onChange={handleOnChange} /><br />
-                    <input type="text" placeholder="Image URL" name="img_url" id='url4' onChange={handleOnChange} /><br />
-                    Description: <input type="text" name="img_description" id='desc4' onChange={handleOnChange} /><br />
-                    <input type="text" placeholder="Image URL" name="img_url" id='url5' onChange={handleOnChange} /><br />
-                    Description: <input type="text" name="img_description" id='desc5' onChange={handleOnChange} /><br />
+                    Add an image: <br />
+                    <input type="text" placeholder="Image URL" className="Images" name="img_url" id='1' onChange={handleOnChange} /><br />
+                    Description: <input type="text" className="Images" name="img_description" id='1' onChange={handleOnChange} /><br />
                     <br />
                 </div>
                
@@ -101,4 +101,4 @@ const mapStateToProps = state => {
         amenities: state.amenities
     }
 }
-export default connect(mapStateToProps)(AddListingForm)
+export default connect(mapStateToProps, {addListing})(AddListingForm)
