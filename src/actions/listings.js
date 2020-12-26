@@ -38,7 +38,6 @@ export function addListing(formData){
         })
         .then(res => res.json())
         .then(listing => {
-            addProperty(formData, Number(listing.data.id))
             return dispatch({
                 type: ADD_LISTING,
                 listing: listing.data 
@@ -49,7 +48,7 @@ export function addListing(formData){
 
 }
 
-function addProperty(formData, listing_id){
+export function addProperty(formData, listing_id){
     const propertyData = {
         street: formData.property.street,
         city: formData.property.city,
