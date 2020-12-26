@@ -26,7 +26,6 @@ export const getListings = () => {
 }
 
 export function addListing(formData){
-
     return dispatch => {
         return fetch('http://localhost:3001/api/v1/listings', {
             credentials: "include",
@@ -39,6 +38,7 @@ export function addListing(formData){
         .then(res => res.json())
         .then(listing => {
             addProperty(formData, listing.data.id)
+            addImages(formData, listing.data.id)
             return dispatch({
                 type: ADD_LISTING,
                 listing: listing.data 
@@ -69,6 +69,28 @@ export function addProperty(formData, listing_id){
         .then(property => {
             return property.data
         })
+        .catch("Unable to add address")
+}
+
+export function addImages(formData, listing_id){
+   const imageData = {
+       url: formData.images.img_url,
+       description: formData.images.img_description,
+       listing_id: listing_id
+   }
+   return fetch('http://localhost:3001/api/v1/images', {
+       credentials: "include",
+       method: "POST",
+       headers: {
+           "Content-Type" : "application/json"
+       },
+       body: JSON.stringify(imageData)
+   })
+   .then(res => res.json())
+   .then(image => {
+       return image.data
+   })
+   .catch("Unable to add image")
 
 }
 
