@@ -27,7 +27,7 @@ export default function ReservationCard(props){
         <div className="ReservationCard">
             
             <h3>Your Trip to:</h3>
-            {props.listing ? <h4>{property.attributes.city}</h4> : null }
+            {property ? <h4>{property.attributes.city}</h4> : null }
             {props.reservation ? <p>{props.reservation.start_date} to {props.reservation.end_date}</p> : null}
 
         </div>
