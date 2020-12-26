@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { addListing } from '../actions/listings'
 
 function AddListingForm({ user , amenities , addListing }){
-const [formData, setFormData] = useState({'user_id': user.id, 'amenities': {}, 'images':{}, 'property':{}})
+const [formData, setFormData] = useState({'user_id': user.id, 'amenities': [], 'images':{}, 'property':{}})
 const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
     function renderAmenityCheckboxes(){
@@ -21,7 +21,7 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
     function handleOnChange(e){
         const listingData = formData 
         if(e.target.type === 'checkbox'){
-            listingData['amenities'][e.target.name] = e.target.checked
+            listingData['amenities'].push(e.target.name)
         }else if(e.target.name === "img_url" || e.target.name === "img_description"){
             listingData['images'][e.target.id] = e.target.value
         }else if(e.target.name === 'property'){

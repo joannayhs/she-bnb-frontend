@@ -26,7 +26,15 @@ export const getListings = () => {
 }
 
 export function addListing(formData){
-    console.log(formData)
+    const listingData = {
+       title: formData.title,
+       description: formData.description, 
+       type_of: formData.type_of, 
+       max_guests: formData.max_guests,
+       num_of_beds: formData.num_of_beds,
+       price: formData.price,
+       user_id: formData.user_id 
+    }
     return dispatch => {
         return fetch('http://localhost:3001/api/v1/listings', {
             credentials: "include",
@@ -34,7 +42,7 @@ export function addListing(formData){
             headers: {
                 "Content-Type":"application/json"
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(listingData)
         })
         .then(res => res.json())
         .then(listing => {
