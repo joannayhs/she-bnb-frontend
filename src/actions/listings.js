@@ -39,6 +39,7 @@ export function addListing(formData){
         .then(listing => {
             addProperty(formData, listing.data.id)
             addImages(formData, listing.data.id)
+            addAmenities(formData, listing.data.id)
             return dispatch({
                 type: ADD_LISTING,
                 listing: listing.data 
@@ -91,6 +92,32 @@ export function addImages(formData, listing_id){
        return image.data
    })
    .catch("Unable to add image")
+
+}
+
+export function addAmenities(formData, listing_id){
+    const amenityData = {
+        listing_id: listing_id
+    }
+
+    Object.keys(formData.amenities).map(a => {
+        if(formData.amenities[a] === true){
+            amenityData['name'] = a
+           return fetch('http://localhost:3001/api/v1/amenities_listings', {
+               credentials: "include", 
+               method: "POST",
+               headers: {
+                   "Content-Type" : "application/json"
+               },
+               body: JSON.stringify(amenityData)
+           })
+           .then(res => res.json())
+           .then(amenity => {
+               return amenity.data
+           })
+           .catch("Unable to assign amenities to listing")
+        }
+    })
 
 }
 

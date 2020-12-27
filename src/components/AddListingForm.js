@@ -29,6 +29,7 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
             listingData[e.target.name] = e.target.value
         }
         setFormData(listingData)
+        console.log(listingData)
     }
 
     function handleSubmit(e){
