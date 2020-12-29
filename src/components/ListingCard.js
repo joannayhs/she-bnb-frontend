@@ -1,10 +1,10 @@
 import React from 'react'
-
+import { NavLink } from 'react-router-dom'
 export default function ListingCard({listing}){
 
     return (
         <div className="ListingCard">
-            <h3>{listing.attributes.title}</h3>
+            <NavLink to={`listings/${listing.id}`}>{listing.attributes.title}</NavLink>
             {listing.attributes.images.map(i => <img src={i.url} key={i.description} height="25%" width="25%"/>)}
             <p>{listing.attributes.description}</p>
             <p>Max Guests: {listing.attributes.max_guests}</p>
