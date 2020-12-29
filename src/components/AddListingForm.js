@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { connect } from 'react-redux'
 import { addListing } from '../actions/listings'
+import { Redirect } from 'react-router-dom'
 
 function AddListingForm({ user , amenities, addListing }){
 const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':{}})

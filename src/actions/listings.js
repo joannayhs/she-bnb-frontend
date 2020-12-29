@@ -1,4 +1,5 @@
 import {GET_LISTINGS, ADD_LISTING} from '../actionTypes/index'
+import { Redirect } from 'react-router-dom'
 
 export const setListings = (listings) => {
     return {
@@ -43,7 +44,7 @@ export function addListing(formData){
             return dispatch({
                 type: ADD_LISTING,
                 listing: listing.data 
-            })
+                })
         })
         .catch("Unable to add listing")
     }
