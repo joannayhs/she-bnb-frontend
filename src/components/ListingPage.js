@@ -22,32 +22,48 @@ export default function ListingPage({listing}){
         }
     }
 
-    async function getProperty(){
-       try {
-        const res  = await fetch(`http://localhost:3001/api/v1/properties/${listing.relationships.property.data.id}`, {
-            credentials: "include",
-            method: "GET",
-            headers: {
-                "Content-Type" : "application/json "
-            }
-        })
-        if(!res.ok){
-            throw res
+    function listAmenities(){
+        if(listing){
+            return listing.attributes.amenities.map(a => {
+               return  <li>{a.name}</li>
+            })
         }
-        const data = await res.json()
-        const property = data.data.attributes
-        setProperty(property)
-       }catch{
-            console.log("Unable to fetch proprerty")
-       }
+    }
+
+    async function getProperty(){
+        if(listing){
+            try {
+                const res  = await fetch(`http://localhost:3001/api/v1/properties/${listing.relationships.property.data.id}`, {
+                    credentials: "include",
+                    method: "GET",
+                    headers: {
+                        "Content-Type" : "application/json "
+                    }
+                })
+                if(!res.ok){
+                    throw res
+                }
+                const data = await res.json()
+                const property = data.data.attributes
+                setProperty(property)
+                }catch{
+                    console.log("Unable to fetch proprerty")
+                    }
+            }
     }
 
     return(
         <>
-            {listing ? <h2>{listing.attributes.title}</h2> : <NavLink to="/listings">See all listings</NavLink>}
-            <h3>{listing.attributes.type_of} in {property.city}</h3>
-            <p> {listing ? listing.attributes.description : <p>Nothing to see here</p>}</p>
             {renderImgs()}
+            {listing ? <h2>{listing.attributes.title}</h2> : <NavLink to="/listings">See all listings</NavLink>}
+            {listing ? <h3>{listing.attributes.type_of} in {property.city}</h3> : ''}
+            {listing ? <p>Maximum number of guests: {listing.attributes.max_guests}</p> : ''}
+            {listing ? <p>Number of beds available: {listing.attributes.num_of_beds}</p> : ''}
+            <p> {listing ? listing.attributes.description : ''}</p>
+            {listing ? <p>Amenities availabe  at {listing.attributes.title}: </p> : '' }
+            <ul>
+                {listAmenities()}
+            </ul>
         </>
     )
 }
