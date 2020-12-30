@@ -33,9 +33,8 @@ function ListingPage({listing, user}){
 
     function reserveOrEdit(){
         if(listing){
-           
-            if(Number(user.id) === Number(listing.attributes.user_id)){
-                return <NavLink to={`/listings/${listing.attributes.id}/edit`}>Edit Listing</NavLink>
+            if(Number(user.id) === listing.attributes.user_id){
+                return <NavLink to={`/listings/${listing.id}/edit`}>Edit Listing</NavLink>
             }else{
                 return <NavLink to={'/reservations/new'}>Reserve</NavLink>
             }
