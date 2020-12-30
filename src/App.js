@@ -12,7 +12,7 @@ import { getListings } from './actions/listings'
 import { getAmenities } from './actions/amenities'
 import { Route, Switch , Redirect } from 'react-router-dom'
 import ListingsContainer from './components/ListingsContainer';
-import AddListingForm from './components/AddListingForm'
+import ListingForm from './components/ListingForm'
 import ListingPage from './components/ListingPage'
 
 function App(props) {
@@ -49,10 +49,17 @@ function App(props) {
             <ListingPage listing={listing}/>
             </>)
           }} />
+          <Route exact path='/listings/:id/edit' render={p => {
+            const listing = props.listings.find(listing => listing.id === p.match.params.id)
+            return (<>
+              <NavBar />
+              <ListingForm listing={listing} />
+            </>)
+          }} />
           <Route exact path='/listings/new'>
             <NavBar/>
             {props.user ? 
-            <AddListingForm /> :
+            <ListingForm /> :
             <ListingsContainer/>
             }
           </Route>
