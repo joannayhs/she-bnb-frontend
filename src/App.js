@@ -42,6 +42,13 @@ function App(props) {
             <NavBar />
             <ListingsContainer />
           </Route>
+          <Route exact path='/listings/new'>
+            <NavBar/>
+            {props.user ? 
+            <ListingForm /> :
+            <ListingsContainer/>
+            }
+          </Route>
           <Route exact path='/listings/:id' render={p => {
             const listing = props.listings.find(listing => listing.id === p.match.params.id)
             return (<>
@@ -56,13 +63,6 @@ function App(props) {
               <ListingForm listing={listing} />
             </>)
           }} />
-          <Route exact path='/listings/new'>
-            <NavBar/>
-            {props.user ? 
-            <ListingForm /> :
-            <ListingsContainer/>
-            }
-          </Route>
           <Route path='/'>
             <NavBar />
             <SearchContainer />
