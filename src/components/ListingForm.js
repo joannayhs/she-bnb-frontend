@@ -3,10 +3,48 @@ import { connect } from 'react-redux'
 import { addListing } from '../actions/listings'
 
 function ListingForm({ listing, user , amenities, addListing }){
-const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':{}})
-const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
+const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':[]})
+const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 
+'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 
+'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 const listingAmenities = []
+const blankImg = {
+        url: '',
+        description: ''
+    }
+const [imgInputs, setImgInputs] = useState([
+    {...blankImg}
+])
+    function renderImgInputs(){
+        return imgInputs.map((val, i) => {
+            const imgId = `url-${i}`
+            const imgDesc = `desc-${i}`
+            return (
+                <div className={`img-${i}`}>
+                    Add an image: <br />
+                    <input
+                        type="text"
+                        data-idx={`img-${i}`}
+                        placeholder="Image URL"
+                        className="Images"
+                        name={imgId}
+                        onChange={handleOnChange} /><br />
+                    Description: <input
+                        type="text"
+                        data-idx={`img-${i}`}
+                        className="Images"
+                        name={`${imgDesc}`}
+                        onChange={handleOnChange} /><br />
+                    <br />
+                </div>
+            )
+        })
+    }
 
+    function addImgInput(e){
+        e.preventDefault()
+        setImgInputs([...imgInputs, {...blankImg}])
+    }
 
     function renderAmenityCheckboxes() {
         if(listing){
@@ -44,7 +82,7 @@ const listingAmenities = []
         }else if(e.target.className === "Amenities"){
             listingData['amenities'][e.target.value] = e.target.checked
         }else if(e.target.className === "Images"){
-            listingData['images'][e.target.name] = e.target.value
+            listingData['images'][e.target.dataset.idx] = {...listingData['images'][e.target.dataset.idx], [e.target.name]: e.target.value}
         }else{
             listingData[e.target.name] = e.target.value
         }
@@ -149,24 +187,9 @@ const listingAmenities = []
                 </div>
 
 
-                <div className="Images"> 
-                    Add an image: <br />
-                    <input 
-                    type="text" 
-                    placeholder="Image URL" 
-                    className="Images" 
-                    name="img_url" 
-                    id='1' 
-                    onChange={handleOnChange} /><br />
-                    Description: <input 
-                    type="text" 
-                    className="Images" 
-                    name="img_description" 
-                    id='1' 
-                    onChange={handleOnChange} /><br />
-                    <br />
-                </div>
-               
+                {renderImgInputs()}
+                <button onClick={addImgInput}>Add Another Image</button><br/><br/>
+
                 
                 <input 
                 type="submit" 
