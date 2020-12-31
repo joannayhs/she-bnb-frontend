@@ -5,8 +5,7 @@ import { addListing } from '../actions/listings'
 function ListingForm({ listing, user , amenities, addListing }){
 const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':{}})
 const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
-const listingAmenities = [] 
-
+const listingAmenities = []
 
 
     function renderAmenityCheckboxes() {
@@ -20,11 +19,12 @@ const listingAmenities = []
                 <>
                     <input
                         type="checkbox"
-                        key={amenities[a].id}
-                        name={amenities[a].attributes.name}
+                        key={Math.random()}
+                        value={amenities[a].attributes.name}
                         className="Amenities"
                         onChange={handleOnChange}
-                        checked={listingAmenities.find(l => l === amenities[a].attributes.name) ? true : false}
+                        id={amenities[a].id}
+                        defaultChecked={listingAmenities.includes(amenities[a].attributes.name)}
                     />
 
                     <label key={amenities[a].attributes.name}>{amenities[a].attributes.name}</label><br />
@@ -42,8 +42,7 @@ const listingAmenities = []
         if(e.target.className === "Property"){
             listingData['property'][e.target.name] = e.target.value
         }else if(e.target.className === "Amenities"){
-            listingData['amenities'][e.target.name] = e.target.checked
-            delete listingAmenities.find(l => l.name === e.target.name)
+            listingData['amenities'][e.target.value] = e.target.checked
         }else if(e.target.className === "Images"){
             listingData['images'][e.target.name] = e.target.value
         }else{

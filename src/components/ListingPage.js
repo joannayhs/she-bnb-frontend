@@ -21,7 +21,7 @@ function ListingPage({listing, user}){
     function listAmenities(){
         if(listing){
             return listing.attributes.amenities.map(a => {
-               return  <li>{a.name}</li>
+               return  <li key={a.id}>{a.name}</li>
             })
         }
     }
