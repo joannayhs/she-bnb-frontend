@@ -1,32 +1,41 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { addListing } from '../actions/listings'
 
 function ListingForm({ listing, user , amenities, addListing }){
 const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':{}})
 const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
+const listingAmenities = [] 
+
+
 
     function renderAmenityCheckboxes() {
-        const listingAmenities = []
         if(listing){
-            listing.attributes.amenities.map(a => listingAmenities.push(a.name))
+            listing.attributes.amenities.map(a => {
+                listingAmenities.push(a.name)
+            })
         }
         return Object.keys(amenities).map(a => {
             return (
                 <>
-                    <input 
-                    type="checkbox" 
-                    key={amenities[a].id} 
-                    name={amenities[a].attributes.name} 
-                    className="Amenities" 
-                    onChange={handleOnChange} 
-                    checked={ listingAmenities.find(l => l === amenities[a].attributes.name) ? true : false}/>
+                    <input
+                        type="checkbox"
+                        key={amenities[a].id}
+                        name={amenities[a].attributes.name}
+                        className="Amenities"
+                        onChange={handleOnChange}
+                        checked={listingAmenities.find(l => l === amenities[a].attributes.name) ? true : false}
+                    />
 
                     <label key={amenities[a].attributes.name}>{amenities[a].attributes.name}</label><br />
                 </>
+            
             )
+                
         })
     }
+ 
+
 
     function handleOnChange(e){
         const listingData = formData 
@@ -34,6 +43,7 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
             listingData['property'][e.target.name] = e.target.value
         }else if(e.target.className === "Amenities"){
             listingData['amenities'][e.target.name] = e.target.checked
+            delete listingAmenities.find(l => l.name === e.target.name)
         }else if(e.target.className === "Images"){
             listingData['images'][e.target.name] = e.target.value
         }else{
@@ -56,16 +66,18 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
                     type="text" 
                     placeholder="Title" 
                     name="title" 
-                    onChange={handleOnChange} /><br/>
+                    onChange={handleOnChange} 
+                    value={listing ? listing.attributes.title : ''}/><br/>
 
                     Description: <input 
                     type="text"
                     placeholder="Description" 
                     name="description" 
-                    onChange={handleOnChange} /><br/>
+                    onChange={handleOnChange} 
+                    value={listing ? listing.attributes.description : ''}/><br/>
                     
                     Type of Place:
-                    <select name="type_of" onChange={handleOnChange} key="type_of">
+                    <select name="type_of" onChange={handleOnChange} key="type_of" value={listing ? listing.attributes.type_of : ''}>
                         <option name="" ></option>
                         <option name="Entire Place" >Entire Place</option>
                         <option name="Private Room" >Private Room</option>
@@ -77,23 +89,25 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
                     <input 
                     type="number" 
                     name="max_guests" 
-                    onChange={handleOnChange} /><br/>
+                    onChange={handleOnChange} 
+                    value={listing ? listing.attributes.max_guests : ''}/><br/>
 
                     Number of Beds Available:<br/>
                     <input 
                     type="number" 
                     name="num_of_beds" 
-                    onChange={handleOnChange}/><br/>
+                    onChange={handleOnChange}
+                    value={listing ? listing.attributes.num_of_beds : ''}/><br/>
 
                     Price Per Night:<br/>
                     <input 
                     type="number" 
                     min="1" 
                     name="price" 
-                    onChange={handleOnChange} /><br/>
+                    onChange={handleOnChange} 
+                    value={listing ? listing.attributes.price : ''}/><br/>
 
                 </div>
-
                 <div className="Property">
                     Address: <br />
                     Street: <input 
@@ -101,18 +115,21 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
                     name="street" 
                     placeholder="Street" 
                     className="Property" 
-                    onChange={handleOnChange} /><br />
+                    onChange={handleOnChange} 
+                    value={listing ? listing.attributes.property.street : ''}/><br />
 
                     City: <input 
                     type="text" 
                     name="city" 
                     placeholder="City" 
                     className="Property" 
-                    onChange={handleOnChange} /><br />
+                    onChange={handleOnChange} 
+                    value={listing ? listing.attributes.property.city : ''}/><br />
                     
                     State:
                     <select name="state" 
                     className="Property" 
+                    value={listing ? listing.attributes.property.state : ''}
                     onChange={handleOnChange}>
                         <option key='blank'> </option>
                         {stateAbrevs.map(s => <option key={s}>{s}</option>)}
@@ -122,7 +139,8 @@ const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
                     type="text" 
                     name="zip" 
                     className="Property" 
-                    onChange={handleOnChange} /><br />
+                    onChange={handleOnChange} 
+                    value={listing ? listing.attributes.property.zip : ''}/><br />
                     <br/>
                 </div>
 
