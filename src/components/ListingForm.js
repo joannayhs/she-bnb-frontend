@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import { connect } from 'react-redux'
 import { addListing } from '../actions/listings'
 
@@ -17,7 +17,6 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
     function getImgInputs(){
         if(listing){
             const imgArray = listing.attributes.images 
-            console.log(imgArray)
             return imgArray.map(img => {
                 return {
                     url: img.url,
@@ -47,6 +46,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     Add an image: <br />
                     Image URL: <input
                         type="text"
+                        key={`url-${i}`}
                         data-idx={`img-${i}`}
                         className="Images"
                         name={imgId}
@@ -56,9 +56,10 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     Description: <input
                         type="text"
                         data-idx={`img-${i}`}
+                        key={`desc-${i}`}
                         className="Images"
                         name={`${imgDesc}`}
-                        value={imgDescription}
+                        defaultValue={imgDescription}
                         onChange={handleOnChange} 
                         /><br />
                     <br />
@@ -75,8 +76,8 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
 
     function renderAmenityCheckboxes() {
         if(listing){
-            listing.attributes.amenities.map(a => {
-                listingAmenities.push(a.name)
+             listing.attributes.amenities.map(a => {
+                 listingAmenities.push(a.name)
             })
         }
         return Object.keys(amenities).map(a => {
@@ -89,7 +90,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                         className="Amenities"
                         onChange={handleOnChange}
                         id={amenities[a].id}
-                        defaultChecked={listingAmenities.includes(amenities[a].attributes.name)}
+                        defaultChecked={listingAmenities.length > 0 ? listingAmenities.includes(amenities[a].attributes.name) : false}
                     />
 
                     <label key={amenities[a].attributes.name}>{amenities[a].attributes.name}</label><br />
@@ -220,7 +221,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                 
                 <input 
                 type="submit" 
-                value="Add Listing"/>
+                value={listing ? "Update Listing" : "Add Listing"}/>
             </form>
         </div>
     )
