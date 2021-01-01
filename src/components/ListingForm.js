@@ -12,34 +12,63 @@ const blankImg = {
         url: '',
         description: ''
     }
-const [imgInputs, setImgInputs] = useState([
-    {...blankImg}
-])
+const [imgInputs, setImgInputs] = useState([])
+
+    useEffect(() => {
+        if (listing) {
+            return listing.attributes.images.map(img => {
+                return (
+                    setImgInputs([...imgInputs, { 
+                        url: img.url,
+                        description: img.description
+                    }])
+                )
+            })
+                
+        }else{
+            return setImgInputs(blankImg)
+        }
+    }, imgInputs)
+
     function renderImgInputs(){
+        console.log(imgInputs)
         return imgInputs.map((val, i) => {
             const imgId = `url-${i}`
             const imgDesc = `desc-${i}`
+            let imgUrl = ''
+            let imgDescription = ''
+            if(val[i]){
+                imgUrl = val[i].url
+                imgDescription = val[i].description
+            }else{
+                imgUrl = val.url
+                imgDescription = val.description
+            }
             return (
                 <div className={`img-${i}`}>
                     Add an image: <br />
-                    <input
+                    Image URL: <input
                         type="text"
                         data-idx={`img-${i}`}
-                        placeholder="Image URL"
                         className="Images"
                         name={imgId}
-                        onChange={handleOnChange} /><br />
+                        defaultValue={imgUrl}
+                        onChange={handleOnChange} 
+                        /><br />
                     Description: <input
                         type="text"
                         data-idx={`img-${i}`}
                         className="Images"
                         name={`${imgDesc}`}
-                        onChange={handleOnChange} /><br />
+                        value={imgDescription}
+                        onChange={handleOnChange} 
+                        /><br />
                     <br />
                 </div>
             )
         })
     }
+
 
     function addImgInput(e){
         e.preventDefault()
