@@ -12,27 +12,25 @@ const blankImg = {
         url: '',
         description: ''
     }
-const [imgInputs, setImgInputs] = useState([])
+const [imgInputs, setImgInputs] = useState(getImgInputs())
 
-    useEffect(() => {
-        if (listing) {
-            return listing.attributes.images.map(img => {
-                return (
-                    setImgInputs([...imgInputs, { 
-                        url: img.url,
-                        description: img.description
-                    }])
-                )
+    function getImgInputs(){
+        if(listing){
+            const imgArray = listing.attributes.images 
+            console.log(imgArray)
+            return imgArray.map(img => {
+                return {
+                    url: img.url,
+                    description: img.description
+                }
             })
-                
         }else{
-            return setImgInputs(blankImg)
+            return [{ ...blankImg}]
         }
-    }, imgInputs)
+    }
 
     function renderImgInputs(){
-        console.log(imgInputs)
-        return imgInputs.map((val, i) => {
+        return imgInputs.flat().map((val, i) => {
             const imgId = `url-${i}`
             const imgDesc = `desc-${i}`
             let imgUrl = ''
