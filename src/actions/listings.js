@@ -1,5 +1,4 @@
-import {GET_LISTINGS, ADD_LISTING} from '../actionTypes/index'
-import { Redirect } from 'react-router-dom'
+import {GET_LISTINGS, ADD_LISTING, UPDATE_LISTING} from '../actionTypes/index'
 
 export const setListings = (listings) => {
     return {
@@ -123,3 +122,27 @@ export function addAmenities(formData, listing_id){
 }
 
 
+export function updateListing(formData){
+    return dispatch => {
+        return fetch('http://localhost:3001/api/v1/listings', {
+            credentials: "include",
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(res => res.json())
+            .then(listing => {
+                // addProperty(formData, listing.data.id)
+                // addImages(formData, listing.data.id)
+                // addAmenities(formData, listing.data.id)
+                return dispatch({
+                    type: UPDATE_LISTING,
+                    listing: listing.data
+                })
+            })
+            .catch("Unable to update listing")
+    }
+
+}

@@ -1,9 +1,9 @@
 import {  useState } from 'react'
 import { connect } from 'react-redux'
-import { addListing } from '../actions/listings'
+import { addListing, updateListing } from '../actions/listings'
 
 function ListingForm({ listing, user , amenities, addListing }){
-const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':[]})
+const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':[], 'listing_id': listing ? listing.id : null})
 const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 
 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 
 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
@@ -115,12 +115,16 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
             listingData[e.target.name] = e.target.value
         }
         setFormData(listingData)
-        console.log(listingData)
     }
 
     function handleSubmit(e){
-        e.preventDefault()
-        addListing(formData)
+        if(listing){
+            e.preventDefault()
+            updateListing(formData)
+        }else{
+            e.preventDefault()
+            addListing(formData)
+        }
     }
 
     return(
@@ -132,17 +136,17 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     placeholder="Title" 
                     name="title" 
                     onChange={handleOnChange} 
-                    value={listing ? listing.attributes.title : ''}/><br/>
+                    defaultValue={listing ? listing.attributes.title : ''}/><br/>
 
                     Description: <input 
                     type="text"
                     placeholder="Description" 
                     name="description" 
                     onChange={handleOnChange} 
-                    value={listing ? listing.attributes.description : ''}/><br/>
+                    defaultValue={listing ? listing.attributes.description : ''}/><br/>
                     
                     Type of Place:
-                    <select name="type_of" onChange={handleOnChange} key="type_of" value={listing ? listing.attributes.type_of : ''}>
+                    <select name="type_of" onChange={handleOnChange} key="type_of" defaultValue={listing ? listing.attributes.type_of : ''}>
                         <option name="" ></option>
                         <option name="Entire Place" >Entire Place</option>
                         <option name="Private Room" >Private Room</option>
@@ -155,14 +159,14 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     type="number" 
                     name="max_guests" 
                     onChange={handleOnChange} 
-                    value={listing ? listing.attributes.max_guests : ''}/><br/>
+                    defaultValue={listing ? listing.attributes.max_guests : ''}/><br/>
 
                     Number of Beds Available:<br/>
                     <input 
                     type="number" 
                     name="num_of_beds" 
                     onChange={handleOnChange}
-                    value={listing ? listing.attributes.num_of_beds : ''}/><br/>
+                    defaultValue={listing ? listing.attributes.num_of_beds : ''}/><br/>
 
                     Price Per Night:<br/>
                     <input 
@@ -170,7 +174,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     min="1" 
                     name="price" 
                     onChange={handleOnChange} 
-                    value={listing ? listing.attributes.price : ''}/><br/>
+                    defaultValue={listing ? listing.attributes.price : ''}/><br/>
 
                 </div>
                 <div className="Property">
@@ -181,7 +185,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     placeholder="Street" 
                     className="Property" 
                     onChange={handleOnChange} 
-                    value={listing ? listing.attributes.property.street : ''}/><br />
+                    defaultValue={listing ? listing.attributes.property.street : ''}/><br />
 
                     City: <input 
                     type="text" 
@@ -189,12 +193,12 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     placeholder="City" 
                     className="Property" 
                     onChange={handleOnChange} 
-                    value={listing ? listing.attributes.property.city : ''}/><br />
+                    defaultValue={listing ? listing.attributes.property.city : ''}/><br />
                     
                     State:
                     <select name="state" 
                     className="Property" 
-                    value={listing ? listing.attributes.property.state : ''}
+                    defaultValue={listing ? listing.attributes.property.state : ''}
                     onChange={handleOnChange}>
                         <option key='blank'> </option>
                         {stateAbrevs.map(s => <option key={s}>{s}</option>)}
@@ -205,7 +209,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     name="zip" 
                     className="Property" 
                     onChange={handleOnChange} 
-                    value={listing ? listing.attributes.property.zip : ''}/><br />
+                    defaultValue={listing ? listing.attributes.property.zip : ''}/><br />
                     <br/>
                 </div>
 
@@ -233,4 +237,4 @@ const mapStateToProps = state => {
         amenities: state.amenities
     }
 }
-export default connect(mapStateToProps, {addListing})(ListingForm)
+export default connect(mapStateToProps, {addListing, updateListing})(ListingForm)
