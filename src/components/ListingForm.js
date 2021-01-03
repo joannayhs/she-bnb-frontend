@@ -2,7 +2,7 @@ import {  useState } from 'react'
 import { connect } from 'react-redux'
 import { addListing, updateListing } from '../actions/listings'
 
-function ListingForm({ listing, user , amenities, addListing }){
+function ListingForm({ listing, user , amenities, addListing, updateListing }){
 const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':[], 'listing_id': listing ? listing.id : null})
 const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 
 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 
@@ -19,6 +19,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
             const imgArray = listing.attributes.images 
             return imgArray.map(img => {
                 return {
+                    id: img.id,
                     url: img.url,
                     description: img.description
                 }
@@ -30,16 +31,19 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
 
     function renderImgInputs(){
         return imgInputs.flat().map((val, i) => {
-            const imgId = `url-${i}`
+            const imgUrl = `url-${i}`
             const imgDesc = `desc-${i}`
-            let imgUrl = ''
+            let imgId = ''
+            let imageUrl = ''
             let imgDescription = ''
             if(val[i]){
-                imgUrl = val[i].url
+                imageUrl = val[i].url
                 imgDescription = val[i].description
+                imgId = val[i].id
             }else{
-                imgUrl = val.url
+                imageUrl = val.url
                 imgDescription = val.description
+                imgId = val.id
             }
             return (
                 <div className={`img-${i}`}>
@@ -47,21 +51,21 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     Image URL: <input
                         type="text"
                         key={`url-${i}`}
-                        data-idx={`img-${i}`}
+                        data-idx={imgId ? `id-${imgId}` : `new-${i}`}
                         className="Images"
-                        name={imgId}
-                        defaultValue={imgUrl}
+                        name={imgUrl}
+                        defaultValue={imageUrl}
                         onChange={handleOnChange} 
                         /><br />
                     Description: <input
                         type="text"
-                        data-idx={`img-${i}`}
-                        key={`desc-${i}`}
+                        data-idx={imgId ? `id-${imgId}` : `new-${i}`}                        key={`desc-${i}`}
                         className="Images"
                         name={`${imgDesc}`}
                         defaultValue={imgDescription}
                         onChange={handleOnChange} 
                         /><br />
+
                     <br />
                 </div>
             )
@@ -115,6 +119,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
             listingData[e.target.name] = e.target.value
         }
         setFormData(listingData)
+        console.log(formData)
     }
 
     function handleSubmit(e){

@@ -74,24 +74,26 @@ export function addProperty(formData, listing_id){
 }
 
 export function addImages(formData, listing_id){
-   const imageData = {
-       url: formData.images.img_url,
-       description: formData.images.img_description,
-       listing_id: listing_id
-   }
-   return fetch('http://localhost:3001/api/v1/images', {
-       credentials: "include",
-       method: "POST",
-       headers: {
-           "Content-Type" : "application/json"
-       },
-       body: JSON.stringify(imageData)
-   })
-   .then(res => res.json())
-   .then(image => {
-       return image.data
-   })
-   .catch("Unable to add image")
+    return formData.images.map( (img, i) => {
+        const imageData = {
+            url: img.url-{i},
+            description: img.desc-{i},
+            listing_id: listing_id
+        }
+        return fetch('http://localhost:3001/api/v1/images', {
+            credentials: "include",
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify(imageData)
+        })
+        .then(res => res.json())
+        .then(image => {
+            return image.data
+        })
+        .catch("Unable to add image")
+    })
 
 }
 
@@ -124,7 +126,7 @@ export function addAmenities(formData, listing_id){
 
 export function updateListing(formData){
     return dispatch => {
-        return fetch(`http://localhost:3001/api/v1/listings/${Number(formData.listing_id)}`, {
+        return fetch(`http://localhost:3001/api/v1/listings/${formData.listing_id}`, {
             credentials: "include",
             method: "PATCH",
             headers: {
@@ -136,7 +138,7 @@ export function updateListing(formData){
             .then(listing => {
                 console.log(listing.data)
                 updateProperty(formData, listing.data.id)
-                updateImages(formData, listing.data.id)
+                updateImages(formData, listing.data)
                 updateAmenities(formData, listing.data.id)
                 return dispatch({
                     type: UPDATE_LISTING,
@@ -169,30 +171,55 @@ export function updateAmenities(formData, listing_id) {
                     return amenity.data
                 })
                 .catch("Unable to assign amenities to listing")
+        }else if(formData.amenities[a] === false) {
+            amenityData['name'] = a
+            return fetch('http://localhost:3001/api/v1/amenities_listings', {
+                credentials: "include",
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(amenityData)
+            })
+                .then(res => res.json())
+                .then(amenity => {
+                    return amenity.data
+                })
+                .catch("Unable to remove amenities from listing")
         }
     })
 
 }
 
-export function updateImages(formData, listing_id) {
-    const imageData = {
-        url: formData.images.img_url,
-        description: formData.images.img_description,
-        listing_id: listing_id
-    }
-    return fetch('http://localhost:3001/api/v1/images', {
-        credentials: "include",
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(imageData)
-    })
-        .then(res => res.json())
-        .then(image => {
-            return image.data
+export function updateImages(formData, listing) {
+    // if form data has images, send patch request to update images.
+    // images could be new or updates
+    // create separate action for deleting images
+    // how to check if image is new or needs to be updated though
+    if(formData.images.length > 0){
+        formData.images.map(img => {
+            const imageData = {
+                url: img.img_url,
+                description: img.img_description,
+                listing_id: listing.id
+            }
+        console.log(listing.attributes.images.includes())
+        
+        //     return fetch('http://localhost:3001/api/v1/images', {
+        //         credentials: "include",
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json"
+        //         },
+        //         body: JSON.stringify(imageData)
+        //     })
+        //         .then(res => res.json())
+        //         .then(image => {
+        //             return image.data
+        //         })
+        //         .catch("Unable to update image")
         })
-        .catch("Unable to add image")
+    }
 
 }
 
@@ -217,4 +244,4 @@ export function updateProperty(formData, listing_id) {
             return property.data
         })
         .catch("Unable to add address")
-}
+    }
