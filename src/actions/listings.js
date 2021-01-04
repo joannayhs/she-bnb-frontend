@@ -25,6 +25,7 @@ export const getListings = () => {
     }
 }
 
+// add listing actions 
 export function addListing(formData){
     return dispatch => {
         return fetch('http://localhost:3001/api/v1/listings', {
@@ -123,7 +124,7 @@ export function addAmenities(formData, listing_id){
 
 }
 
-
+//update listing actions
 export function updateListing(formData){
     return dispatch => {
         return fetch(`http://localhost:3001/api/v1/listings/${formData.listing_id}`, {
@@ -238,7 +239,6 @@ export function updateImages(formData, listing) {
             }
         })
     }
-
 }
 
 export function updateProperty(formData, listing) {
