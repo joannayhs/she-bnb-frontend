@@ -1,8 +1,8 @@
 import {  useState } from 'react'
 import { connect } from 'react-redux'
-import { addListing, updateListing } from '../actions/listings'
+import { addListing, updateListing, deleteImage } from '../actions/listings'
 
-function ListingForm({ listing, user , amenities, addListing, updateListing }){
+function ListingForm({ listing, user , amenities, addListing, updateListing, deleteImage }){
 const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':[], 'listing_id': listing ? listing.id : null})
 const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 
 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 
@@ -15,7 +15,7 @@ const blankImg = {
 const [imgInputs, setImgInputs] = useState(getImgInputs())
 
     function getImgInputs(){
-        if(listing){
+        if(listing.attributes.images.length > 0){
             const imgArray = listing.attributes.images 
             return imgArray.map(img => {
                 return {
@@ -66,7 +66,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                         onChange={handleOnChange} 
                         /><br />
 
-                    <br />
+                    <button key={`delete-${i}`} onClick={() => deleteImage(imgId)}>Remove</button>
                 </div>
             )
         })
@@ -242,4 +242,4 @@ const mapStateToProps = state => {
         amenities: state.amenities
     }
 }
-export default connect(mapStateToProps, {addListing, updateListing})(ListingForm)
+export default connect(mapStateToProps, {addListing, updateListing, deleteImage })(ListingForm)

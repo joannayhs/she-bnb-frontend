@@ -137,7 +137,6 @@ export function updateListing(formData){
         })
             .then(res => res.json())
             .then(listing => {
-                console.log(listing.data)
                 updateProperty(formData, listing.data)
                 updateImages(formData, listing.data)
                 updateAmenities(formData, listing.data.id)
@@ -193,16 +192,16 @@ export function updateAmenities(formData, listing_id) {
 }
 
 export function updateImages(formData, listing) {
-    if(formData.images.length > 0){
-        formData.images.map((img, i) => {
-            if(i.startsWith('id')){
-                const index = i.slice(-1)
-                const image = listing.attributes.images.find(i => i.id === i.slice(-1))
+    const images = formData.images
+        Object.keys(images).map( key => {
+            if(key.startsWith('id')){
+                const index = key.slice(-1)
+                const image = listing.attributes.images.find(i => i.id === index)
                 const imageData = {
-                    url: img.url-{index},
-                    description: img.desc-{index}
+                    url: images[key].url-{index},
+                    description: images[key].desc-{index}
                 }
-                return fetch(`http://localhost:3001/api/v1/images/${image.id}`, {
+                return fetch(`http://localhost:3001/api/v1/images/${images[key].id}`, {
                     credentials: "include",
                     method: "PATCH",
                     headers: {
@@ -215,11 +214,12 @@ export function updateImages(formData, listing) {
                     return image.data
                 })
                 .catch("Unable to update image")
-            }else if(i.startsWith('new')){
-                const index = i.slice(-1)
+            }else if(key.startsWith('new')){
+                const url = Object.keys(images[key]).shift()
+                const description = Object.keys(images[key]).pop()
                 const imageData = {
-                    url: img.url-{index},
-                    description: img.desc-{index},
+                    url: images[key][url],
+                    description: images[key][description],
                     listing_id: listing.id
                 }
                 return fetch('http://localhost:3001/api/v1/images', {
@@ -238,7 +238,6 @@ export function updateImages(formData, listing) {
 
             }
         })
-    }
 }
 
 export function updateProperty(formData, listing) {
@@ -246,7 +245,7 @@ export function updateProperty(formData, listing) {
         const property = listing.attributes.property.find(p => p.listing_id === listing.id)
         const propertyData = {
             property: formData.property,
-            listing_id: listing_id
+            listing_id: listing.id
         }
         return fetch(`http://localhost:3001/api/v1/properties/${property.id}`, {
             credentials: "include",
@@ -262,4 +261,20 @@ export function updateProperty(formData, listing) {
             })
             .catch("Unable to update address")
         }
+    }
+
+    export function deleteImage(imageId){
+        
+        return fetch(`http://localhost:3001/api/v1/images/${imageId}`, {
+            credentials: "include",
+            method: "DELETE",
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        .then(res => res.json())
+        .then( image => {
+            return image
+        })
+        .catch("Unable to delete image")
     }
