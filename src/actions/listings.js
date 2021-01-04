@@ -137,9 +137,9 @@ export function updateListing(formData){
             .then(res => res.json())
             .then(listing => {
                 console.log(listing.data)
-                // updateProperty(formData, listing.data.id)
+                updateProperty(formData, listing.data)
                 updateImages(formData, listing.data)
-                // updateAmenities(formData, listing.data.id)
+                updateAmenities(formData, listing.data.id)
                 return dispatch({
                     type: UPDATE_LISTING,
                     listing: listing.data
@@ -195,10 +195,11 @@ export function updateImages(formData, listing) {
     if(formData.images.length > 0){
         formData.images.map((img, i) => {
             if(i.startsWith('id')){
+                const index = i.slice(-1)
                 const image = listing.attributes.images.find(i => i.id === i.slice(-1))
                 const imageData = {
-                    url: img.url-{i},
-                    description: img.desc-{i}
+                    url: img.url-{index},
+                    description: img.desc-{index}
                 }
                 return fetch(`http://localhost:3001/api/v1/images/${image.id}`, {
                     credentials: "include",
@@ -240,25 +241,25 @@ export function updateImages(formData, listing) {
 
 }
 
-export function updateProperty(formData, listing_id) {
-    const propertyData = {
-        street: formData.property.street,
-        city: formData.property.city,
-        state: formData.property.state,
-        zip: formData.property.zip,
-        listing_id: listing_id
-    }
-    return fetch('http://localhost:3001/api/v1/properties', {
-        credentials: "include",
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(propertyData)
-    })
-        .then(res => res.json())
-        .then(property => {
-            return property.data
+export function updateProperty(formData, listing) {
+    if(formData.property.length > 0){
+        const property = listing.attributes.property.find(p => p.listing_id === listing.id)
+        const propertyData = {
+            property: formData.property,
+            listing_id: listing_id
+        }
+        return fetch(`http://localhost:3001/api/v1/properties/${property.id}`, {
+            credentials: "include",
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(propertyData)
         })
-        .catch("Unable to add address")
+            .then(res => res.json())
+            .then(property => {
+                return property.data
+            })
+            .catch("Unable to update address")
+        }
     }
