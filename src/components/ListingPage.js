@@ -48,7 +48,7 @@ function ListingPage({listing, user}){
             {listing ? <p>Number of beds available: {listing.attributes.num_of_beds}</p> : ''}
             {listing ? <p>Price per night: ${listing.attributes.price}</p> : ''}
             <p> {listing ? listing.attributes.description : ''}</p>
-            {listing ? <p>Amenities availabe  at {listing.attributes.title}: </p> : '' }
+            {listing ? <p>Amenities available at {listing.attributes.title}: </p> : '' }
             <ul>
                 {listAmenities()}
             </ul>

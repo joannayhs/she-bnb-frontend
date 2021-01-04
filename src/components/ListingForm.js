@@ -1,7 +1,6 @@
 import {  useState } from 'react'
 import { connect } from 'react-redux'
 import { addListing, updateListing, deleteImage } from '../actions/listings'
-import { Redirect } from 'react-router-dom'
 
 function ListingForm({ listing, user , amenities, addListing, updateListing, deleteImage }){
 const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':[], 'listing_id': listing ? listing.id : null})
@@ -47,7 +46,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                 imgId = val.id
             }
             return (
-                <div className={`img-${i}`}>
+                <div className={`img-${i}`} key={`img-${i}`}>
                     Add an image: <br />
                     Image URL: <input
                         type="text"
@@ -126,11 +125,9 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
         if(listing){
             e.preventDefault()
             updateListing(formData)
-            return <Redirect to='/profile'/>
         }else{
             e.preventDefault()
             addListing(formData)
-            return <Redirect to='/profile'/>
         }
     }
 

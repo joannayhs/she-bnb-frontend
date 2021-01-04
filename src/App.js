@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { getCurrentUser } from './actions/user'
 import { getListings } from './actions/listings'
 import { getAmenities } from './actions/amenities'
-import { Route, Switch , Redirect } from 'react-router-dom'
+import { Route, Switch , Redirect, withRouter } from 'react-router-dom'
 import ListingsContainer from './components/ListingsContainer';
 import ListingForm from './components/ListingForm'
 import ListingPage from './components/ListingPage'
@@ -83,4 +83,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {getCurrentUser, getListings, getAmenities})(App);
+export default withRouter(connect(mapStateToProps, {getCurrentUser, getListings, getAmenities})(App));

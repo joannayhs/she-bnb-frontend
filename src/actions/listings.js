@@ -1,4 +1,5 @@
 import {GET_LISTINGS, ADD_LISTING, UPDATE_LISTING} from '../actionTypes/index'
+import { Redirect } from 'react-router-dom'
 
 export const setListings = (listings) => {
     return {
@@ -41,10 +42,11 @@ export function addListing(formData){
             addProperty(formData, listing.data.id)
             addImages(formData, listing.data.id)
             addAmenities(formData, listing.data.id)
-            return dispatch({
+            dispatch({
                 type: ADD_LISTING,
                 listing: listing.data 
                 })
+            return <Redirect to={`listings/${listing.data.id}`}/>
         })
         .catch("Unable to add listing")
     }
@@ -140,10 +142,11 @@ export function updateListing(formData){
                 updateProperty(formData, listing.data)
                 updateImages(formData, listing.data)
                 updateAmenities(formData, listing.data.id)
-                return dispatch({
+                dispatch({
                     type: UPDATE_LISTING,
                     listing: listing.data
                 })
+                return <Redirect to={`/listings/${listing.data.id}`}/>
             })
             .catch("Unable to update listing")
     }
