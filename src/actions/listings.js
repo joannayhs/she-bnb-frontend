@@ -137,9 +137,9 @@ export function updateListing(formData){
             .then(res => res.json())
             .then(listing => {
                 console.log(listing.data)
-                updateProperty(formData, listing.data.id)
+                // updateProperty(formData, listing.data.id)
                 updateImages(formData, listing.data)
-                updateAmenities(formData, listing.data.id)
+                // updateAmenities(formData, listing.data.id)
                 return dispatch({
                     type: UPDATE_LISTING,
                     listing: listing.data
@@ -192,32 +192,49 @@ export function updateAmenities(formData, listing_id) {
 }
 
 export function updateImages(formData, listing) {
-    // if form data has images, send patch request to update images.
-    // images could be new or updates
-    // create separate action for deleting images
-    // how to check if image is new or needs to be updated though
     if(formData.images.length > 0){
-        formData.images.map(img => {
-            const imageData = {
-                url: img.img_url,
-                description: img.img_description,
-                listing_id: listing.id
+        formData.images.map((img, i) => {
+            if(i.startsWith('id')){
+                const image = listing.attributes.images.find(i => i.id === i.slice(-1))
+                const imageData = {
+                    url: img.url-{i},
+                    description: img.desc-{i}
+                }
+                return fetch(`http://localhost:3001/api/v1/images/${image.id}`, {
+                    credentials: "include",
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(imageData)
+                })
+                .then(res => res.json())
+                .then(image => {
+                    return image.data
+                })
+                .catch("Unable to update image")
+            }else if(i.startsWith('new')){
+                const index = i.slice(-1)
+                const imageData = {
+                    url: img.url-{index},
+                    description: img.desc-{index},
+                    listing_id: listing.id
+                }
+                return fetch('http://localhost:3001/api/v1/images', {
+                    credentials: "include",
+                    method: "POST",
+                    headers: {
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify(imageData)
+                })
+                .then(res => res.json())
+                .then(image => {
+                    return image.data
+                })
+                .catch("Unable to update images")
+
             }
-        console.log(listing.attributes.images.includes())
-        
-        //     return fetch('http://localhost:3001/api/v1/images', {
-        //         credentials: "include",
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json"
-        //         },
-        //         body: JSON.stringify(imageData)
-        //     })
-        //         .then(res => res.json())
-        //         .then(image => {
-        //             return image.data
-        //         })
-        //         .catch("Unable to update image")
         })
     }
 
