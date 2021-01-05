@@ -1,4 +1,4 @@
-import {  useState } from 'react'
+import {  useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { addListing, updateListing, deleteImage } from '../actions/listings'
 
@@ -13,6 +13,11 @@ const blankImg = {
         description: ''
     }
 const [imgInputs, setImgInputs] = useState(getImgInputs())
+
+    useEffect(() => {
+        getImgInputs()
+    }, listing)
+
 
     function getImgInputs(){
         if(listing.attributes.images.length > 0){
@@ -66,7 +71,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                         onChange={handleOnChange} 
                         /><br />
 
-                    <button key={`delete-${i}`} onClick={() => deleteImage(imgId)}>Remove</button>
+                    <button key={`delete-${i}`} onClick={ async () => deleteImage(imgId , listing)}>Remove</button>
                 </div>
             )
         })

@@ -266,8 +266,7 @@ export function updateProperty(formData, listing) {
         }
     }
 
-    export function deleteImage(imageId){
-        
+    export function deleteImage(imageId, listing){
         return fetch(`http://localhost:3001/api/v1/images/${imageId}`, {
             credentials: "include",
             method: "DELETE",
@@ -277,7 +276,7 @@ export function updateProperty(formData, listing) {
         })
         .then(res => res.json())
         .then( image => {
-            return image
+            return image.data
         })
         .catch("Unable to delete image")
     }
