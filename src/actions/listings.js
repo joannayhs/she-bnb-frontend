@@ -46,7 +46,7 @@ export function addListing(formData){
                 type: ADD_LISTING,
                 listing: listing.data 
                 })
-            return <Redirect to={`listings/${listing.data.id}`}/>
+                return <Redirect to={`listings/${listing.data.id}`} />
         })
         .catch("Unable to add listing")
     }
@@ -105,7 +105,7 @@ export function addAmenities(formData, listing_id){
         listing_id: listing_id
     }
 
-    Object.keys(formData.amenities).map(a => {
+    Object.keys(formData.amenities).forEach(a => {
         if(formData.amenities[a] === true){
             amenityData['name'] = a
            return fetch('http://localhost:3001/api/v1/amenities_listings', {
@@ -146,7 +146,7 @@ export function updateListing(formData){
                     type: UPDATE_LISTING,
                     listing: listing.data
                 })
-                return <Redirect to={`/listings/${listing.data.id}`}/>
+                return <Redirect to={`/listings/${listing.data.id}`} />
             })
             .catch("Unable to update listing")
     }
@@ -158,7 +158,7 @@ export function updateAmenities(formData, listing_id) {
         listing_id: listing_id
     }
 
-    Object.keys(formData.amenities).map(a => {
+    Object.keys(formData.amenities).forEach(a => {
         if (formData.amenities[a] === true) {
             amenityData['name'] = a
             return fetch('http://localhost:3001/api/v1/amenities_listings', {
@@ -196,10 +196,9 @@ export function updateAmenities(formData, listing_id) {
 
 export function updateImages(formData, listing) {
     const images = formData.images
-        Object.keys(images).map( key => {
+        Object.keys(images).forEach( key => {
             if(key.startsWith('id')){
                 const index = key.slice(-1)
-                const image = listing.attributes.images.find(i => i.id === index)
                 const imageData = {
                     url: images[key].url-{index},
                     description: images[key].desc-{index}
@@ -266,7 +265,7 @@ export function updateProperty(formData, listing) {
         }
     }
 
-    export function deleteImage(imageId, listing){
+    export function deleteImage(imageId){
         return fetch(`http://localhost:3001/api/v1/images/${imageId}`, {
             credentials: "include",
             method: "DELETE",

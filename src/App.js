@@ -15,12 +15,12 @@ import ListingsContainer from './components/ListingsContainer';
 import ListingForm from './components/ListingForm'
 import ListingPage from './components/ListingPage'
 
-function App(props) {
+function App({user, getCurrentUser, getListings, getAmenities, listings}) {
 
     useEffect( () => {
-      props.getCurrentUser()
-      props.getListings()
-      props.getAmenities()
+      getCurrentUser()
+      getListings()
+      getAmenities()
     }, [])
 
 
@@ -29,14 +29,14 @@ function App(props) {
 
         <Switch>
           <Route exact path='/login'>
-           {props.user ? <Redirect to='/' /> : <LoginContainer />}
+           {user ? <Redirect to='/' /> : <LoginContainer />}
           </Route>
           <Route exact path='/signup'>
-            {props.user ? <Redirect to='/'/> : <SignUpContainer />}
+            {user ? <Redirect to='/'/> : <SignUpContainer />}
           </Route>
           <Route exact path='/profile'>
             <NavBar />
-            {props.user ? <Profile /> : <Redirect to='/'/>}
+            {user ? <Profile /> : <Redirect to='/'/>}
           </Route>
           <Route exact path='/listings'>
             <NavBar />
@@ -44,23 +44,23 @@ function App(props) {
           </Route>
           <Route exact path='/listings/new'>
             <NavBar/>
-            {props.user ? 
+            {user ? 
             <ListingForm /> :
             <ListingsContainer/>
             }
           </Route>
           <Route exact path='/listings/:id' render={p => {
-            const listing = props.listings.find(listing => listing.id === p.match.params.id)
+            const listing = listings.find(listing => listing.id === p.match.params.id)
             return (<>
             <NavBar />
             <ListingPage listing={listing}/>
             </>)
           }} />
           <Route exact path='/listings/:id/edit' render={p => {
-            const listing = props.listings.find(listing => listing.id === p.match.params.id)
+            const listing = listings.find(listing => listing.id === p.match.params.id)
             return (<>
               <NavBar />
-              {props.user ? <ListingForm listing={listing} /> : <ListingPage listing={listing}/>}
+              {user ? <ListingForm listing={listing} /> : <ListingPage listing={listing}/>}
             </>)
           }} />
           <Route path='/'>

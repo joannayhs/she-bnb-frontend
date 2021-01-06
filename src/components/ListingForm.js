@@ -16,7 +16,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
 
     useEffect(() => {
         getImgInputs()
-    }, listing)
+    }, listing.attributes.images)
 
 
     function getImgInputs(){
@@ -64,6 +64,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                         /><br />
                     Description: <input
                         type="text"
+                        key={`desc-${i}`}
                         data-idx={imgId ? `id-${imgId}` : `new-${i}`}                        key={`desc-${i}`}
                         className="Images"
                         name={`${imgDesc}`}
@@ -91,7 +92,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
         }
         return Object.keys(amenities).map(a => {
             return (
-                <>
+                <div key={Math.random()}>
                     <input
                         type="checkbox"
                         key={Math.random()}
@@ -103,7 +104,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                     />
 
                     <label key={amenities[a].attributes.name}>{amenities[a].attributes.name}</label><br />
-                </>
+                </div>
             
             )
                 

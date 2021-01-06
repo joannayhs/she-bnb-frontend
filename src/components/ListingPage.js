@@ -9,10 +9,10 @@ function ListingPage({listing, user}){
         if(listing){
             return listing.attributes.images.map(i => {
                 return (
-                    <>
+                    <div key={i.id}>
                         <img src={i.url} width="25%" height="25%" key={i.description}/>
                         <p className="caption" key={i.url}>{i.description}</p>
-                    </>
+                    </div>
                 )
             })
         }
