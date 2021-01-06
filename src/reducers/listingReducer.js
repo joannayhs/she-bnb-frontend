@@ -1,4 +1,4 @@
-import { GET_LISTINGS, ADD_LISTING, UPDATE_LISTING } from '../actionTypes/index'
+import { GET_LISTINGS, ADD_LISTING, UPDATE_LISTING , DELETE_LISTING} from '../actionTypes/index'
 
 export function listingReducer(state=[], action){
     switch(action.type){
@@ -8,6 +8,8 @@ export function listingReducer(state=[], action){
             return state.concat(action.listing)
         case UPDATE_LISTING:
             return state.map(listing => listing.id === action.listing.id ? action.listing : listing)
+        case DELETE_LISTING:
+            return state.filter(listing => listing.id === action.listing.id ? true : false )
         default:
             return state
     }

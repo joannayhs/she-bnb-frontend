@@ -1,4 +1,4 @@
-import {GET_LISTINGS, ADD_LISTING, UPDATE_LISTING} from '../actionTypes/index'
+import {GET_LISTINGS, ADD_LISTING, UPDATE_LISTING, DELETE_LISTING} from '../actionTypes/index'
 import { Redirect } from 'react-router-dom'
 
 export const setListings = (listings) => {
