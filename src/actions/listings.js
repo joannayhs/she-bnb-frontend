@@ -292,7 +292,7 @@ export function updateProperty(formData, listing) {
             .then(res => res.json())
             .then(resp => {
                 dispatch({
-                    action: DELETE_LISTING,
+                    type: DELETE_LISTING,
                     listing
                 })
                 return <Redirect to="/profile"/>

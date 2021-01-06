@@ -234,7 +234,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                 value={listing ? "Update Listing" : "Add Listing"}/>
             </form>
 
-            {listing ? <button onClick={deleteListing(listing)}>REMOVE LISTING</button> : ''}
+            {listing ? <button onClick={() => deleteListing(listing)}>REMOVE LISTING</button> : ''}
         </div>
     )
 }
