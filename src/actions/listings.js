@@ -279,3 +279,24 @@ export function updateProperty(formData, listing) {
         })
         .catch("Unable to delete image")
     }
+
+    export function deleteListing(listing){
+        return dispatch => {
+            return fetch(`http://localhost:3001/api/v1/listings/${listing.id}`, {
+                credentials: "include",
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json"  
+                }
+            })
+            .then(res => res.json())
+            .then(resp => {
+                dispatch({
+                    action: DELETE_LISTING,
+                    listing
+                })
+                return <Redirect to="/profile"/>
+            })
+            .catch("Unable to delete listing")
+        }
+    }

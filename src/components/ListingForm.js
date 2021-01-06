@@ -1,8 +1,8 @@
-import {  useEffect, useState } from 'react'
+import {  useState } from 'react'
 import { connect } from 'react-redux'
-import { addListing, updateListing, deleteImage } from '../actions/listings'
+import { addListing, updateListing, deleteImage, deleteListing } from '../actions/listings'
 
-function ListingForm({ listing, user , amenities, addListing, updateListing, deleteImage }){
+function ListingForm({ listing, user , amenities, addListing, updateListing, deleteImage, deleteListing }){
 const [formData, setFormData] = useState({'user_id': user.id, 'property':{}, 'amenities':{}, 'images':[], 'listing_id': listing ? listing.id : null})
 const stateAbrevs = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 
 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 
@@ -13,10 +13,6 @@ const blankImg = {
         description: ''
     }
 const [imgInputs, setImgInputs] = useState(getImgInputs())
-
-    useEffect(() => {
-        getImgInputs()
-    }, listing.attributes.images)
 
 
     function getImgInputs(){
@@ -86,7 +82,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
 
     function renderAmenityCheckboxes() {
         if(listing){
-             listing.attributes.amenities.map(a => {
+             listing.attributes.amenities.forEach(a => {
                  listingAmenities.push(a.name)
             })
         }
@@ -237,6 +233,8 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                 type="submit" 
                 value={listing ? "Update Listing" : "Add Listing"}/>
             </form>
+
+            {listing ? <button onClick={deleteListing(listing)}>REMOVE LISTING</button> : ''}
         </div>
     )
 }
@@ -247,4 +245,4 @@ const mapStateToProps = state => {
         amenities: state.amenities
     }
 }
-export default connect(mapStateToProps, {addListing, updateListing, deleteImage })(ListingForm)
+export default connect(mapStateToProps, {addListing, updateListing, deleteImage, deleteListing})(ListingForm)
