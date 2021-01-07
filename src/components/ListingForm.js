@@ -128,19 +128,16 @@ const history = useHistory()
     function handleSubmit(e){
         if(listing){
             e.preventDefault()
-            updateListing(formData)
-            history.push(`/listings/${listing.id}`)
+            updateListing(formData, history)
         }else{
             e.preventDefault()
-            addListing(formData)
-            history.push(`/profile`)
+            addListing(formData, history)
         }
     }
 
     function handleOnClick(e){
         e.preventDefault()
-        deleteListing(listing)
-        history.push(`/profile`)
+        deleteListing(listing, history)
     }
 
     return(
@@ -229,22 +226,22 @@ const history = useHistory()
                     <br/>
                 </div>
 
+                {renderImgInputs()}
+                <button onClick={addImgInput}>Add Another Image</button><br/><br/>
+
                 <div className="Amenities">
                     Check all included amenities: <br />
                     {renderAmenityCheckboxes()}
                 </div>
-
-
-                {renderImgInputs()}
-                <button onClick={addImgInput}>Add Another Image</button><br/><br/>
-
                 
                 <input 
                 type="submit" 
                 value={listing ? "Update Listing" : "Add Listing"}/>
             </form>
+            <br/>
+            <br/>
 
-            {listing ? <button onClick={() => handleOnClick}>REMOVE LISTING</button> : ''}
+            {listing ? <button onClick={handleOnClick}>REMOVE LISTING</button> : ''}
         </div>
     )
 }

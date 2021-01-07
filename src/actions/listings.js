@@ -27,7 +27,7 @@ export const getListings = () => {
 }
 
 // add listing actions 
-export function addListing(formData){
+export function addListing(formData, history){
     return dispatch => {
         return fetch('http://localhost:3001/api/v1/listings', {
             credentials: "include",
@@ -39,13 +39,18 @@ export function addListing(formData){
         })
         .then(res => res.json())
         .then(listing => {
-            addProperty(formData, listing.data.id)
-            addImages(formData, listing.data.id)
-            addAmenities(formData, listing.data.id)
-            dispatch({
-                type: ADD_LISTING,
-                listing: listing.data 
-                })
+            if(listing.error){
+                alert(listing.error)
+            }else{
+                addProperty(formData, listing.data.id)
+                addImages(formData, listing.data.id)
+                addAmenities(formData, listing.data.id)
+                dispatch({
+                    type: ADD_LISTING,
+                    listing: listing.data 
+                    })
+                history.push(`/listings/${listing.data.id}`)
+            }
         })
         .catch("Unable to add listing")
     }
@@ -70,12 +75,16 @@ export function addProperty(formData, listing_id){
     })
         .then(res => res.json())
         .then(property => {
-            return property.data
+            if(property.error){
+                alert(property.error)
+            }else{
+                return property.data
+            }
         })
         .catch("Unable to add address")
 }
 
-export function addImages(formData){
+export function addImages(formData, listing_id){
     const images = formData.images
     Object.keys(images).map( key => {
         const url = Object.keys(images[key]).shift()
@@ -83,6 +92,7 @@ export function addImages(formData){
         const imageData = {
             url: images[key][url],
             description: images[key][description],
+            listing_id: listing_id
         }
         return fetch('http://localhost:3001/api/v1/images', {
                 credentials: "include",
@@ -94,7 +104,11 @@ export function addImages(formData){
             })
             .then(res => res.json())
             .then(image => {
-                return image.data
+                if(image.error){
+                    alert(image.error)
+                }else{
+                    return image.data
+                }
             })
             .catch("Unable to add image")
         })
@@ -118,7 +132,11 @@ export function addAmenities(formData, listing_id){
            })
            .then(res => res.json())
            .then(amenity => {
-               return amenity.data
+               if(amenity.error){
+                   alert(amenity.error)
+               }else{
+                   return amenity.data
+               }
            })
            .catch("Unable to assign amenities to listing")
         }
@@ -127,7 +145,7 @@ export function addAmenities(formData, listing_id){
 }
 
 //update listing actions
-export function updateListing(formData){
+export function updateListing(formData, history){
     return dispatch => {
         return fetch(`http://localhost:3001/api/v1/listings/${formData.listing_id}`, {
             credentials: "include",
@@ -139,13 +157,19 @@ export function updateListing(formData){
         })
             .then(res => res.json())
             .then(listing => {
-                updateProperty(formData, listing.data)
-                updateImages(formData, listing.data)
-                updateAmenities(formData, listing.data.id)
-                dispatch({
-                    type: UPDATE_LISTING,
-                    listing: listing.data
-                })
+                if(listing.error){
+                    alert(listing.error)
+                }else{
+                    updateProperty(formData, listing.data)
+                    updateImages(formData, listing.data)
+                    updateAmenities(formData, listing.data.id)
+                    dispatch({
+                        type: UPDATE_LISTING,
+                        listing: listing.data
+                    })
+                    history.push(`/listings/${listing.data.id}`)
+                }
+
             })
             .catch("Unable to update listing")
     }
@@ -170,7 +194,11 @@ export function updateAmenities(formData, listing_id) {
             })
                 .then(res => res.json())
                 .then(amenity => {
-                    return amenity.data
+                    if(amenity.error){
+                        alert(amenity.error)
+                    }else{
+                        return amenity.data
+                    }
                 })
                 .catch("Unable to assign amenities to listing")
         }else if(formData.amenities[a] === false) {
@@ -185,7 +213,11 @@ export function updateAmenities(formData, listing_id) {
             })
                 .then(res => res.json())
                 .then(amenity => {
-                    return amenity.data
+                    if(amenity.error){
+                        alert(amenity.error)
+                    }else{
+                        return amenity.data
+                    }
                 })
                 .catch("Unable to remove amenities from listing")
         }
@@ -212,7 +244,11 @@ export function updateImages(formData, listing) {
                 })
                 .then(res => res.json())
                 .then(image => {
-                    return image.data
+                    if(image.error){
+                        alert(image.error)
+                    }else{
+                        return image.data
+                    }
                 })
                 .catch("Unable to update image")
             }else if(key.startsWith('new')){
@@ -233,7 +269,11 @@ export function updateImages(formData, listing) {
                 })
                 .then(res => res.json())
                 .then(image => {
-                    return image.data
+                    if(image.error){
+                        alert(image.error)
+                    }else{
+                        return image.data
+                    }
                 })
                 .catch("Unable to update images")
 
@@ -258,7 +298,11 @@ export function updateProperty(formData, listing) {
         })
             .then(res => res.json())
             .then(property => {
-                return property.data
+                if(property.error){
+                    alert(property.error)
+                }else{
+                    return property.data
+                }
             })
             .catch("Unable to update address")
         }
@@ -274,12 +318,16 @@ export function updateProperty(formData, listing) {
         })
         .then(res => res.json())
         .then( image => {
-            return image.data
+            if(image.error){
+                alert(image.error)
+            }else{
+                return image.data
+            }
         })
         .catch("Unable to delete image")
     }
 
-    export function deleteListing(listing){
+    export function deleteListing(listing, history){
         return dispatch => {
             return fetch(`http://localhost:3001/api/v1/listings/${listing.id}`, {
                 credentials: "include",
@@ -297,6 +345,7 @@ export function updateProperty(formData, listing) {
                         type: DELETE_LISTING,
                         listing
                     })
+                    history.push(`/profile`)
                 }
             })
             .catch(alert("Unable to delete listing"))

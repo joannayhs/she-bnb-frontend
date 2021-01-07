@@ -43,7 +43,7 @@ function ListingPage({listing, user}){
         <>
             {renderImgs()}
             {listing ? <h2>{listing.attributes.title}</h2> : <NavLink to="/listings">See all listings</NavLink>}
-            {listing ? <h3>{listing.attributes.type_of} in {listing.attributes.property.city}</h3> : ''}
+            {listing && listing.attributes.property ? <h3>{listing.attributes.type_of} in {listing.attributes.property.city}</h3> : ''}
             {listing ? <p>Maximum number of guests: {listing.attributes.max_guests}</p> : ''}
             {listing ? <p>Number of beds available: {listing.attributes.num_of_beds}</p> : ''}
             {listing ? <p>Price per night: ${listing.attributes.price}</p> : ''}
