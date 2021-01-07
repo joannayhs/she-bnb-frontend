@@ -198,7 +198,7 @@ const history = useHistory()
                     placeholder="Street" 
                     className="Property" 
                     onChange={handleOnChange} 
-                    defaultValue={listing ? listing.attributes.property.street : ''}/><br />
+                    defaultValue={listing && listing.attributes.property ? listing.attributes.property.street : ''}/><br />
 
                     City: <input 
                     type="text" 
@@ -206,12 +206,12 @@ const history = useHistory()
                     placeholder="City" 
                     className="Property" 
                     onChange={handleOnChange} 
-                    defaultValue={listing ? listing.attributes.property.city : ''}/><br />
+                    defaultValue={listing && listing.attributes.property ? listing.attributes.property.city : ''}/><br />
                     
                     State:
                     <select name="state" 
                     className="Property" 
-                    defaultValue={listing ? listing.attributes.property.state : ''}
+                    defaultValue={listing && listing.attributes.property ? listing.attributes.property.state : ''}
                     onChange={handleOnChange}>
                         <option key='blank'> </option>
                         {stateAbrevs.map(s => <option key={s}>{s}</option>)}
@@ -222,7 +222,7 @@ const history = useHistory()
                     name="zip" 
                     className="Property" 
                     onChange={handleOnChange} 
-                    defaultValue={listing ? listing.attributes.property.zip : ''}/><br />
+                    defaultValue={listing && listing.attributes.property ? listing.attributes.property.zip : ''}/><br />
                     <br/>
                 </div>
 

@@ -7,11 +7,11 @@ function Profile({user, listings}){
 
     function getUserListings(){
         const userListings = []
-        for(const l in listings){
-           if(listings[l].attributes.user_id === Number(user.id)){
-               userListings.push(listings[l])
-           }
-        }
+        Object.keys(listings).forEach( key => {
+            if(listings[key].attributes.user_id === Number(user.id)){
+                return userListings.push(listings[key])
+            }
+        })
         return userListings
     }
 

@@ -9,7 +9,7 @@ export function listingReducer(state=[], action){
         case UPDATE_LISTING:
             return state.map(listing => listing.id === action.listing.id ? action.listing : listing)
         case DELETE_LISTING:
-            return state.filter(listing => listing.id === action.listing.id ? true : false )
+            return state.filter(listing => listing.id !== action.listing.id)
         default:
             return state
     }

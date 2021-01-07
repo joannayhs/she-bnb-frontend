@@ -4,14 +4,13 @@ import { connect } from 'react-redux'
 
 function ListingPage({listing, user}){
 
-
     function renderImgs(){
         if(listing){
             return listing.attributes.images.map(i => {
                 return (
-                    <div key={i.id}>
+                    <div key={`images-${i.id}`}>
                         <img src={i.url} width="25%" height="25%" key={i.description} alt={i.description}/>
-                        <p className="caption" key={i.url}>{i.description}</p>
+                        <p className="caption" key={`key-${i.description}`}>{i.description}</p>
                     </div>
                 )
             })
@@ -21,7 +20,7 @@ function ListingPage({listing, user}){
     function listAmenities(){
         if(listing){
             return listing.attributes.amenities.map(a => {
-               return  <li key={a.id}>{a.name}</li>
+               return  <li key={`attribute-${a.id}`}>{a.name}</li>
             })
         }
     }
