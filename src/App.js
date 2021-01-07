@@ -14,6 +14,7 @@ import { Route, Switch , Redirect, withRouter } from 'react-router-dom'
 import ListingsContainer from './components/ListingsContainer';
 import ListingForm from './components/ListingForm'
 import ListingPage from './components/ListingPage'
+import ReservationForm from './components/ReservationForm';
 
 function App({user, getCurrentUser, getListings, getAmenities, listings}) {
 
@@ -63,6 +64,10 @@ function App({user, getCurrentUser, getListings, getAmenities, listings}) {
               {user ? <ListingForm listing={listing} /> : <ListingPage listing={listing}/>}
             </>)
           }} />
+          <Route path='/reservations/new'>
+            <NavBar />
+            <ReservationForm />
+          </Route>
           <Route path='/'>
             <NavBar />
             <SearchContainer />
