@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { addReservation } from '../actions/reservations'
 import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
-function ReservationForm({listing, addReservation}){
-    const [formData, setFormData] = useState({})
+function ReservationForm({listing, addReservation, user}){
+    const [formData, setFormData] = useState({listing: listing, user: user})
+    const history = useHistory()
 
     function handleOnChange(e){
         const reservationData = formData
@@ -13,7 +15,7 @@ function ReservationForm({listing, addReservation}){
 
     function handleSubmit(e){
         e.preventDefault()
-        addReservation(formData, listing)
+        addReservation(formData, history)
     }
 
     return(
@@ -29,4 +31,10 @@ function ReservationForm({listing, addReservation}){
     )
 }
 
-export default connect(null, {addReservation})(ReservationForm)
+function mapStateToProps(state){
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, {addReservation})(ReservationForm)
