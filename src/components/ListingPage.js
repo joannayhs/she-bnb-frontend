@@ -30,10 +30,10 @@ function ListingPage({listing, user}){
             if(Number(user.id) === listing.attributes.user_id){
                 return <NavLink to={`/listings/${listing.id}/edit`}>Edit Listing</NavLink>
             }else{
-                return <NavLink to={'/reservations/new'}>Reserve</NavLink>
+                return <NavLink to={`/listings/${listing.id}/reservations/new`}>Reserve</NavLink>
             }
         }else{
-            return <NavLink to={'/reservations/new'}>Reserve</NavLink>
+            return <NavLink to={`/listings/${listing.id}/reservations/new`}>Reserve</NavLink>
         }
     }
 

@@ -64,10 +64,15 @@ function App({user, getCurrentUser, getListings, getAmenities, listings}) {
               {user ? <ListingForm listing={listing} /> : <ListingPage listing={listing}/>}
             </>)
           }} />
-          <Route path='/reservations/new'>
-            <NavBar />
-            <ReservationForm />
-          </Route>
+          <Route exact path='/listings/:id/reservations/new' render={p => {
+            const listing = listings.find(listing=> listing.id === p.match.params.id)
+            return(
+              <>
+              <NavBar />
+              <ReservationForm listing={listing}/>
+              </>
+            )
+          }} />
           <Route path='/'>
             <NavBar />
             <SearchContainer />
