@@ -17,6 +17,8 @@ export default function SearchForm(){
                 <input type="date" onChange={handleChange}/>
                 End Date:
                 <input type="date" onChange={handleChange}/>
+                Number of Guests:
+                <input type="number" onChange={handleChange}/>
                 <input type="submit" value="Search" />
             </form>
         </div>
