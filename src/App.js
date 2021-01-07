@@ -15,13 +15,15 @@ import ListingsContainer from './components/ListingsContainer';
 import ListingForm from './components/ListingForm'
 import ListingPage from './components/ListingPage'
 import ReservationForm from './components/ReservationForm';
+import { getReservations } from './actions/reservations';
 
-function App({user, getCurrentUser, getListings, getAmenities, listings}) {
+function App({user, getCurrentUser, getListings, getAmenities, listings, getReservations}) {
 
     useEffect( () => {
       getCurrentUser()
       getListings()
       getAmenities()
+      getReservations()
     }, [])
 
 
@@ -93,4 +95,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, {getCurrentUser, getListings, getAmenities})(App));
+export default withRouter(connect(mapStateToProps, {getCurrentUser, getListings, getAmenities, getReservations})(App));
