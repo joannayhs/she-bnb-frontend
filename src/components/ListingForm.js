@@ -1,5 +1,6 @@
 import {  useState } from 'react'
 import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { addListing, updateListing, deleteImage, deleteListing } from '../actions/listings'
 
 function ListingForm({ listing, user , amenities, addListing, updateListing, deleteImage, deleteListing }){
@@ -13,10 +14,11 @@ const blankImg = {
         description: ''
     }
 const [imgInputs, setImgInputs] = useState(getImgInputs())
+const history = useHistory()
 
 
     function getImgInputs(){
-        if(listing.attributes.images.length > 0){
+        if(listing && listing.attributes.images.length > 0){
             const imgArray = listing.attributes.images 
             return imgArray.map(img => {
                 return {
@@ -60,15 +62,15 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                         /><br />
                     Description: <input
                         type="text"
+                        data-idx={imgId ? `id-${imgId}` : `new-${i}`}                        
                         key={`desc-${i}`}
-                        data-idx={imgId ? `id-${imgId}` : `new-${i}`}                        key={`desc-${i}`}
                         className="Images"
                         name={`${imgDesc}`}
                         defaultValue={imgDescription}
                         onChange={handleOnChange} 
                         /><br />
 
-                    <button key={`delete-${i}`} onClick={ async () => deleteImage(imgId , listing)}>Remove</button>
+                    {imgId ? <button key={`delete-${i}`} onClick={ () => deleteImage(imgId)}>Remove</button> : ""}
                 </div>
             )
         })
@@ -127,10 +129,18 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
         if(listing){
             e.preventDefault()
             updateListing(formData)
+            history.push(`/listings/${listing.id}`)
         }else{
             e.preventDefault()
             addListing(formData)
+            history.push(`/profile`)
         }
+    }
+
+    function handleOnClick(e){
+        e.preventDefault()
+        deleteListing(listing)
+        history.push(`/profile`)
     }
 
     return(
@@ -234,7 +244,7 @@ const [imgInputs, setImgInputs] = useState(getImgInputs())
                 value={listing ? "Update Listing" : "Add Listing"}/>
             </form>
 
-            {listing ? <button onClick={() => deleteListing(listing)}>REMOVE LISTING</button> : ''}
+            {listing ? <button onClick={() => handleOnClick}>REMOVE LISTING</button> : ''}
         </div>
     )
 }

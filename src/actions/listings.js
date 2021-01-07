@@ -1,5 +1,5 @@
 import {GET_LISTINGS, ADD_LISTING, UPDATE_LISTING, DELETE_LISTING} from '../actionTypes/index'
-import { Redirect } from 'react-router-dom'
+
 
 export const setListings = (listings) => {
     return {
@@ -46,7 +46,6 @@ export function addListing(formData){
                 type: ADD_LISTING,
                 listing: listing.data 
                 })
-                return <Redirect to={`listings/${listing.data.id}`} />
         })
         .catch("Unable to add listing")
     }
@@ -76,29 +75,30 @@ export function addProperty(formData, listing_id){
         .catch("Unable to add address")
 }
 
-export function addImages(formData, listing_id){
-    return formData.images.map( (img, i) => {
+export function addImages(formData){
+    const images = formData.images
+    Object.keys(images).map( key => {
+        const url = Object.keys(images[key]).shift()
+        const description = Object.keys(images[key]).pop()
         const imageData = {
-            url: img.url-{i},
-            description: img.desc-{i},
-            listing_id: listing_id
+            url: images[key][url],
+            description: images[key][description],
         }
         return fetch('http://localhost:3001/api/v1/images', {
-            credentials: "include",
-            method: "POST",
-            headers: {
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify(imageData)
+                credentials: "include",
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(imageData)
+            })
+            .then(res => res.json())
+            .then(image => {
+                return image.data
+            })
+            .catch("Unable to add image")
         })
-        .then(res => res.json())
-        .then(image => {
-            return image.data
-        })
-        .catch("Unable to add image")
-    })
-
-}
+    }
 
 export function addAmenities(formData, listing_id){
     const amenityData = {
@@ -146,7 +146,6 @@ export function updateListing(formData){
                     type: UPDATE_LISTING,
                     listing: listing.data
                 })
-                return <Redirect to={`/listings/${listing.data.id}`} />
             })
             .catch("Unable to update listing")
     }
@@ -291,12 +290,15 @@ export function updateProperty(formData, listing) {
             })
             .then(res => res.json())
             .then(resp => {
-                dispatch({
-                    type: DELETE_LISTING,
-                    listing
-                })
-                return <Redirect to="/profile"/>
+                if(resp.error){
+                    alert(resp.error)
+                }else{
+                    dispatch({
+                        type: DELETE_LISTING,
+                        listing
+                    })
+                }
             })
-            .catch("Unable to delete listing")
+            .catch(alert("Unable to delete listing"))
         }
     }
