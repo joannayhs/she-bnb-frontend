@@ -24,13 +24,10 @@ export function getReservations(){
 export function addReservation(formData, history){
     if(formData.num_of_guests > formData.listing.attributes.max_guests){
         alert(`This listing only allows ${formData.listing.attributes.max_guests} guests.`)
-        history.push(`/listings/${formData.listing.id}/reservations/new`)
     }else if(new Date(formData.start_date) <= new Date){
          alert(`The start date for your reservation cannot be in the past`)
-         history.push(`/listings/${formData.listing.id}/reservations/new`)
     }else if(new Date(formData.start_date) > new Date(formData.end_date)){
         alert(`End date cannot be before start date`)
-        history.push(`/listings/${formData.listing.id}/reservations/new`)
     }else{
         const reservation = {
             start_date: formData.start_date,

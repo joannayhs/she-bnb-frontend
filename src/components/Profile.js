@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
-import ReservationsContainer from './ReservationsContainer'
+import ReservationsCard from './ReservationsCard'
 import ListingCard from './ListingCard'
 import { NavLink} from 'react-router-dom'
 
-function Profile({user, listings}){
+function Profile({user, listings, reservations}){
 
     function getUserListings(){
         const userListings = []
@@ -19,6 +19,16 @@ function Profile({user, listings}){
         return listings.map(l => <ListingCard listing={l} key={l.id}/>)
     }
 
+    function renderUserReservations(){
+        const userReservations = []
+        Object.keys(reservations).forEach(r => {
+            if(reservations[r].attributes.user_id === user.id){
+                userReservations.push(reservations[r])
+            }
+            return userReservations.forEach(r => <ReservationsCard user={user} />)
+        })
+    }
+
     return (
         <>
             <h1>Welcome, {user.attributes.first_name}</h1>
@@ -26,7 +36,7 @@ function Profile({user, listings}){
             {renderUserListings(getUserListings())}
             <NavLink to='/listings/new'>Create New Listing</NavLink>
             <h2>Your Reservations</h2>
-            <ReservationsContainer user={user} />
+            {renderUserReservations()}
 
         </>
     )
@@ -35,7 +45,8 @@ function Profile({user, listings}){
 const mapStateToProps = state => {
     return{
         user:state.user,
-        listings: state.listings
+        listings: state.listings,
+        reservations: state.reservations
     }
 }
 
