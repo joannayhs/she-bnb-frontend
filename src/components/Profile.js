@@ -38,6 +38,7 @@ function Profile({user, listings, reservations}){
             <h2>Your Reservations</h2>
             {renderUserReservations()}
 
+
         </>
     )
 }

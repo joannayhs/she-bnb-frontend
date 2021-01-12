@@ -17,7 +17,7 @@ import ListingPage from './components/ListingPage'
 import ReservationForm from './components/ReservationForm';
 import { getReservations } from './actions/reservations';
 
-function App({user, getCurrentUser, getListings, getAmenities, listings, getReservations}) {
+function App({user, getCurrentUser, getListings, getAmenities, listings, getReservations, reservations }) {
 
     useEffect( () => {
       getCurrentUser()
@@ -75,6 +75,15 @@ function App({user, getCurrentUser, getListings, getAmenities, listings, getRese
               </>
             )
           }} />
+          <Route exact path='/reservations/:id' render={p => {
+            const reservation = reservations.find(r => r.id === p.match.params.id)
+            return (
+              <>
+                <NavBar />
+                <ReservationPage reservation={reservation} />
+              </>
+            )
+          }} />
           <Route path='/'>
             <NavBar />
             <SearchContainer />
@@ -91,7 +100,8 @@ function App({user, getCurrentUser, getListings, getAmenities, listings, getRese
 const mapStateToProps = state => {
   return {
     user: state.user,
-    listings: state.listings
+    listings: state.listings,
+    reservations: state.reservations
   }
 }
 
