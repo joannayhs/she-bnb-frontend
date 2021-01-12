@@ -26,7 +26,7 @@ function Profile({user, listings, reservations}){
                return userReservations.push(reservations[r])
             }    
         })
-        return userReservations.map(r => <ReservationCard user={user} reservation={r} listing={listings.find(l => Number(l.id) === r.attributes.listing_id)}/>)
+        return userReservations.map(r => <ReservationCard reservation={r} listing={listings.find(l => Number(l.id) === r.attributes.listing_id)}/>)
     }
 
     return (
