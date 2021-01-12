@@ -1,12 +1,12 @@
 
-export default function ReservationCard({reservation, listing }){
+export default function ReservationCard({user, reservation, listing}){
 
     return(
-        <div className="ReservationCard">
-            
+        <div className="ReservationCard" key={reservation.id}>
+            {console.log(reservation)}
             <h3>Your Trip to:</h3>
             {listing ? <h4>{listing.attributes.property.city}</h4> : '' }
-            {reservation ? <p>{reservation.start_date} to {reservation.end_date}</p> : null}
+            {reservation ? <p>{reservation.attributes.start_date} to {reservation.attributes.end_date}</p> : null}
 
         </div>
     )

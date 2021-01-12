@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import ReservationsCard from './ReservationsCard'
 import ListingCard from './ListingCard'
 import { NavLink} from 'react-router-dom'
+import ReservationCard from './ReservationCard'
 
 function Profile({user, listings, reservations}){
 
@@ -22,11 +22,11 @@ function Profile({user, listings, reservations}){
     function renderUserReservations(){
         const userReservations = []
         Object.keys(reservations).forEach(r => {
-            if(reservations[r].attributes.user_id === user.id){
-                userReservations.push(reservations[r])
-            }
-            return userReservations.forEach(r => <ReservationsCard user={user} />)
+            if(reservations[r].attributes.user_id === Number(user.id)){
+               return userReservations.push(reservations[r])
+            }    
         })
+        return userReservations.map(r => <ReservationCard user={user} reservation={r} listing={listings.find(l => Number(l.id) === r.attributes.listing_id)}/>)
     }
 
     return (
