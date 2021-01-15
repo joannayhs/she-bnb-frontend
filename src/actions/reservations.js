@@ -1,4 +1,4 @@
-import { GET_RESERVATIONS, ADD_RESERVATION, UPDATE_RESERVATION } from '../actionTypes/index'
+import { GET_RESERVATIONS, ADD_RESERVATION, UPDATE_RESERVATION, CANCEL_RESERVATION} from '../actionTypes/index'
 
 export function getReservations(){
     return dispatch => {
@@ -80,4 +80,29 @@ export function updateReservation(formData, reservation, history){
             .catch("Unable to update reservation")
     }
 
+}
+
+export function cancelReservation(reservation, history){
+    return dispatch => {
+        return fetch(`http://localhost:3001/api/v1/reservations/${reservation.id}`, {
+            credentials: "include",
+            method: "DELETE",
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        .then(res => res.json())
+        .then( resp => {
+            if(resp.error){
+                alert(resp.error)
+            }else{
+                dispatch({
+                    type: CANCEL_RESERVATION,
+                    reservation
+                })
+                history.push('/profile')
+            }
+        })
+        .catch(alert("Unable to cancel reservation"))
+    }
 }
