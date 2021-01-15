@@ -92,7 +92,7 @@ export function cancelReservation(reservation, history){
             }
         })
         .then(res => res.json())
-        .then( resp => {
+        .then(resp => {
             if(resp.error){
                 alert(resp.error)
             }else{
@@ -103,6 +103,6 @@ export function cancelReservation(reservation, history){
                 history.push('/profile')
             }
         })
-        .catch(alert("Unable to cancel reservation"))
+        .catch("Unable to cancel reservation")
     }
 }

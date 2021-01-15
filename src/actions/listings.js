@@ -348,6 +348,6 @@ export function updateProperty(formData, listing) {
                     history.push(`/profile`)
                 }
             })
-            .catch(alert("Unable to delete listing"))
+            .catch("Unable to delete listing")
         }
     }

@@ -1,10 +1,14 @@
 import { NavLink } from 'react-router-dom'
+import {cancelReservation } from '../actions/reservations'
+import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
-export default function ReservationCard({ reservation, listing}){
-
+function ReservationCard({ reservation, listing, cancelReservation}){
+    const history = useHistory()
+    
     function handleOnClick(e){
         e.preventDefault()
-
+        cancelReservation(reservation, history)
     }
 
     return(
@@ -18,3 +22,5 @@ export default function ReservationCard({ reservation, listing}){
         </div>
     )
 }
+
+export default connect(null, { cancelReservation })(ReservationCard)
