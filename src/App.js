@@ -75,6 +75,15 @@ function App({user, getCurrentUser, getListings, getAmenities, listings, getRese
               </>
             )
           }} />
+          <Route exact path='/reservations/:id/edit' render={p => {
+            const reservation = reservations.find(res => res.id === p.match.params.id)
+            return (
+              <>
+                <NavBar />
+                <ReservationForm reservation={reservation}/>
+              </>
+            )
+          }} />
           <Route path='/'>
             <NavBar />
             <SearchContainer />
