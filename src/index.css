@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ListingCard {
+  width: 200px;
+  height: 400px;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px;
+}
+
+.NavBar {
+  background-color: #E3748F;
+  height: 50px;
+  padding: 5px;
+}
+
+.SearchForm {
+  border: 1px solid black;
+  width: 1000px;
+}
