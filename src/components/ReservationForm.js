@@ -47,7 +47,8 @@ function ReservationForm({listing, addReservation, user, reservation, updateRese
             onChange={handleOnChange}
             defaultValue={reservation ? reservation.attributes.num_of_guests : null}/><br/>
 
-            <input type="submit" value="Reserve"/>
+            {reservation ? <input type="submit" value="Update Reservation"/> : <input type="submit" value="Reserve"/>}
+
         </form>
         </>
     )

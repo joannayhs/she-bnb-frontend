@@ -40,12 +40,16 @@ export function addReservation(formData, history){
         })
         .then(res => res.json())
         .then(resv => {
-            const reservation = resv.data
-            history.push(`/profile`)
-            return dispatch({
-                type: ADD_RESERVATION,
-                reservation
-            })
+            if(resv.error){
+                alert(resv.error)
+            }else{
+                const reservation = resv.data
+                history.push(`/profile`)
+                return dispatch({
+                    type: ADD_RESERVATION,
+                    reservation
+                })
+            }
         })
         .catch("Unable to create reservation")
     }
@@ -70,14 +74,18 @@ export function updateReservation(formData, reservation, history){
         })
             .then(res => res.json())
             .then(resv => {
-                const reservation = resv.data
-                history.push(`/profile`)
-                return dispatch({
-                    type: UPDATE_RESERVATION,
-                    reservation
-                })
+                if(resv.error){
+                    alert(resv.error)
+                }else{
+                    const reservation = resv.data
+                    history.push(`/profile`)
+                    return dispatch({
+                        type: UPDATE_RESERVATION,
+                        reservation
+                    })
+                }
             })
-            .catch("Unable to update reservation")
+            .catch()
     }
 
 }
