@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { connect } from 'react-redux'
+import { addAmenities } from '../actions/listings'
 
 function SearchForm({listings, reservations}){
     const [formData, setFormData ] = useState({})
@@ -18,8 +19,13 @@ function SearchForm({listings, reservations}){
     }
 
     function checkReservations(data){
-
+        reservations.forEach(r => {
+            if(data.start_date >= r.attributes.start_date && data.end_date <= r.attributes.end_date){
+                return 
+            }
+        })
     }
+
     function getResults(data){
     
     }
